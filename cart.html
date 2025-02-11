@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - My Shopping Site</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Inline styles for the loading screen -->
+  <style>
+    /* ---------- Loading Screen Styles ---------- */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #fff; /* Adjust to match your site's background */
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.5s ease-out;
+    }
+    .loader {
+      border: 12px solid #f3f3f3;
+      border-top: 12px solid #3498db; /* Change this color to match your theme */
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      animation: spin 1.5s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #loading-screen p {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- ---------- Loading Screen Markup ---------- -->
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <p>Loading Cart...</p>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
+          <li><a href="checkout.html">Checkout</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Cart Content -->
+  <main class="cart-main">
+    <section class="cart-section">
+      <h2>My Shopping Cart</h2>
+      <div class="cart-table-container">
+        <table id="cart-table">
+          <thead>
+            <tr>
+              <th>Product(s)</th>
+              <th>Price</th>
+              <th>Qty</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Cart items will be dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+      <div class="cart-summary">
+        <h3>Order Summary</h3>
+        <div class="summary-details">
+          <p>Subtotal: <span id="subtotal">$0.00</span></p>
+          <p>Shipping: <span id="shipping">$24.00</span></p>
+          <p class="total">Total: <span id="cart-total">$0.00</span></p>
+        </div>
+      </div>
+      <div class="cart-actions">
+        <button class="empty-cart" onclick="emptyCart()">Empty Cart</button>
+        <div class="action-group">
+          <button class="continue-shopping" onclick="window.location.href='index.html'">Continue Shopping</button>
+          <button class="proceed-checkout" onclick="proceedToCheckout()">Proceed to Payment</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+  <!-- JavaScript to remove the loading screen when the page is fully loaded -->
+  <script>
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      // Fade out the loading screen
+      loadingScreen.style.opacity = '0';
+      // After the fade-out transition, hide the loading screen completely
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, 500);
+    });
+  </script>
+</body>
+</html>

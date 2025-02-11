@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MarketMingle</title>
+  <link rel="stylesheet" href="styles.css"> <!-- External CSS if needed -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  
+  <!-- ---------- Global and Page Styles ---------- -->
+  <style>
+    /* ---------- Global Styles ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+    body {
+      background: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    .claim {
+      color: rgba(238, 34, 34, 1);
+    }
+    ul {
+      list-style: none;
+    }
+    
+    /* ---------- Header ---------- */
+    header.fancy-header {
+      background: hsla(288, 37%, 29%, 1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-container h1 {
+      font-size: 1.8rem;
+      color: #fff;
+    }
+    .picks {
+      margin-left: 50px;
+    }
+    nav {}
+    nav ul {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+    nav li a {
+      font-size: 1rem;
+      color: #fff;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+    }
+    nav li a:hover {
+      color: #ff6b6b;
+    }
+    /* Cart Icon Styling */
+    .cart-icon {
+      position: relative;
+      font-size: 1.5rem;
+      display: inline-block;
+      color: #fff;
+    }
+    .cart-icon .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -12px;
+      background: red;
+      color: #fff;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.75rem;
+    }
+
+    /* ---------- Hero Section ---------- */
+    .hero {
+      background: url('images/hero-bg.jpg') no-repeat center center/cover;
+      height: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      position: relative;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+    .hero-content p {
+      font-size: 1.2rem;
+    }
+
+    /* ---------- Category Filters ---------- */
+    .category-filters {
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 60px;
+      z-index: 90;
+      padding: 10px 0;
+      transition: top 0.3s ease;
+    }
+    .filter-buttons {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 20px;
+    }
+    .filter-btn {
+      background: #e0e0e0;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: #ff6b6b;
+      color: #fff;
+    }
+
+    /* ---------- Products Grid ---------- */
+    .products-grid {
+      max-width: 1200px;
+      margin: 20px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .product-card img {
+      width: 80%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .product-details {
+      padding: 15px;
+    }
+    .product-details h3 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    .vendor-rating {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .vendor {
+      font-weight: bold;
+      color: #555;
+    }
+    .rating {
+      color: #f1c40f;
+      font-size: 0.9rem;
+    }
+    .reviews {
+      font-size: 0.8rem;
+      color: #777;
+    }
+    .price {
+      font-size: 1.1rem;
+      color: #27ae60;
+      margin-bottom: 10px;
+    }
+    .add-to-cart {
+      background: #3498db;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      width: 100%;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      font-size: 0.95rem;
+    }
+    .add-to-cart:hover {
+      background: #2980b9;
+    }
+    /* "View More" Button */
+    .view-more {
+      display: block;
+      width: 200px;
+      margin: 30px auto;
+      text-align: center;
+      background: #ff6b6b;
+      color: #fff;
+      padding: 12px;
+      border-radius: 25px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: background 0.3s ease;
+      cursor: pointer;
+    }
+    .view-more:hover {
+      background: #ff4c4c;
+    }
+
+    /* ---------- Footer ---------- */
+    footer.classy-footer {
+      background: #333;
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+    }
+    footer .footer-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    footer .footer-section {
+      flex: 1 1 200px;
+    }
+    footer h3 {
+      margin-bottom: 15px;
+    }
+    footer p, footer a {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    footer a:hover {
+      color: #fff;
+    }
+    footer .social-icons a {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      color: #ff6b6b;
+      transition: color 0.3s ease;
+    }
+    footer .social-icons a:hover {
+      color: #ff4c4c;
+    }
+
+    /* ---------- Success Message ---------- */
+    .success-message {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #27ae60;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 5px;
+      display: none;
+      animation: slideIn 0.3s ease-out;
+      z-index: 1000;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+
+    /* ---------- Responsive Adjustments ---------- */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      nav ul {
+        justify-content: center;
+        width: 100%;
+      }
+    }
+    
+    /* ---------- Loading Screen Styles ---------- */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f4f4f4; /* matches body background */
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease-out;
+    }
+    .loader {
+      border: 12px solid #f3f3f3;
+      border-top: 12px solid hsla(288, 37%, 29%, 1); /* matching header color */
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      animation: spin 4.5s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #loading-screen p {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- ---------- Loading Screen ---------- -->
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <p>Loading...</p>
+  </div>
+  
+  <!-- ---------- Header ---------- -->
+  <header class="fancy-header">
+    <div class="header-container">
+      <h1>MarketMingle.com</h1>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li>
+            <a href="cart.html">
+              <span class="cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">0</span>
+              </span>
+            </a>
+          </li>
+          <li><a href="tracking.html">Track Orders</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ---------- Hero Section ---------- -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="animated-text">Welcome to MarketMingle</h1>
+      <p class="animated-text">Discover amazing products at great prices</p>
+    </div>
+  </section>
+
+  <!-- ---------- Category Filters ---------- -->
+  <section class="category-filters" id="category-filters">
+    <div class="filter-buttons">
+      <button class="filter-btn active" data-category="all">All Products</button>
+      <button class="filter-btn" data-category="electronics">Electronics</button>
+      <button class="filter-btn" data-category="clothing">Clothing</button>
+      <button class="filter-btn" data-category="office">Remote Office Setup</button>
+      <button class="filter-btn" data-category="beauty">Beauty</button>
+    </div>
+  </section>
+  <br>
+  
+  <div class="picks">
+    <h2>Top Picks</h2>
+  </div>
+
+  <!-- ---------- Products Grid ---------- -->
+  <section class="products-grid" id="products-grid">
+    <!-- Example Products (You can add as many as you like) -->
+    <!-- Electronics Product -->
+    <div class="product-card" data-category="electronics" data-product-id="101">
+      <img src="images/smartphone.jpg" alt="Smartphone X">
+      <div class="product-details">
+        <h3>Samsung Galaxy S24 Ultra</h3>
+        <div class="vendor-rating">
+          <span class="vendor">TechWorld</span>
+          <div class="rating">
+            ★★★★☆ <span class="reviews">(123 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$599.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Beauty Product -->
+    <div class="product-card" data-category="beauty" data-product-id="102">
+      <img src="images/nivea.jpg" alt="Nivea Men">
+      <div class="product-details">
+        <h3>Nivea Men Moisturizer</h3>
+        <div class="vendor-rating">
+          <span class="vendor">Beautyglow</span>
+          <div class="rating">
+            ★★★★☆ <span class="reviews">(78 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$299.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Clothing Product -->
+    <div class="product-card" data-category="clothing" data-product-id="103">
+      <img src="images/dress.jpg" alt="Designer Dress">
+      <div class="product-details">
+        <h3>Designer Dress</h3>
+        <div class="vendor-rating">
+          <span class="vendor">FashionHub</span>
+          <div class="rating">
+            ★★★☆☆ <span class="reviews">(78 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$89.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Remote Office Setup Product -->
+    <div class="product-card" data-category="office" data-product-id="104">
+      <img src="images/laptop.jpg" alt="Laptop Pro">
+      <div class="product-details">
+        <h3>Laptop Pro 15"</h3>
+        <div class="vendor-rating">
+          <span class="vendor">OfficeTech</span>
+          <div class="rating">
+            ★★★★★ <span class="reviews">(200 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$1,299.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Additional Products -->
+    <div class="product-card" data-category="electronics" data-product-id="105">
+      <img src="images/headphones.jpg" alt="Wireless Headphones">
+      <div class="product-details">
+        <h3>Wireless Headphones</h3>
+        <div class="vendor-rating">
+          <span class="vendor">SoundMax</span>
+          <div class="rating">
+            ★★★★☆ <span class="reviews">(150 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$199.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card" data-category="clothing" data-product-id="106">
+      <img src="images/shoes.jpg" alt="Running Shoes">
+      <div class="product-details">
+        <h3>Running Shoes</h3>
+        <div class="vendor-rating">
+          <span class="vendor">Sportify</span>
+          <div class="rating">
+            ★★★☆☆ <span class="reviews">(95 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$129.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-card" data-category="beauty" data-product-id="107">
+      <img src="images/perfume.jpg" alt="Luxury Perfume">
+      <div class="product-details">
+        <h3>Luxury Perfume</h3>
+        <div class="vendor-rating">
+          <span class="vendor">Scentify</span>
+          <div class="rating">
+            ★★★★☆ <span class="reviews">(60 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$79.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Duplicate Product Example -->
+    <div class="product-card" data-category="electronics" data-product-id="101">
+      <img src="images/smartphone.jpg" alt="Smartphone X">
+      <div class="product-details">
+        <h3>Samsung Galaxy S24 Ultra</h3>
+        <div class="vendor-rating">
+          <span class="vendor">TechWorld</span>
+          <div class="rating">
+            ★★★★☆ <span class="reviews">(123 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$599.99</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Remote Office Setup (MacBook Air) -->
+    <div class="product-card" data-category="office" data-product-id="101">
+      <img src="images/macbook.jpg" alt="MacBook Air">
+      <div class="product-details">
+        <h3>MacBook Air</h3>
+        <div class="vendor-rating">
+          <span class="vendor">OfficeTech</span>
+          <div class="rating">
+            ★★★★☆ <span class="reviews">(673 reviews)</span>
+          </div>
+        </div>
+        <p class="price">$1420.69</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- "View More" Products Button ---------- -->
+  <div class="view-more">
+    <a href="products.html" style="color: inherit;">View More Products</a>
+  </div>
+
+  <!-- ---------- Footer ---------- -->
+  <footer class="classy-footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <p>We are a leading online store dedicated to offering the best products at competitive prices.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="tracking.html">Track Orders</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-square"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter-square"></i></a>
+        </div>
+      </div>
+    </div>
+    <p style="margin-top: 20px;">&copy; 2025 MarketMingle. All Rights Reserved.</p>
+  </footer>
+
+  <!-- ---------- Success Message ---------- -->
+  <div id="success-message" class="success-message">Item added to cart!</div>
+
+  <!-- ---------- JavaScript ---------- -->
+  <script>
+    // ---------- Remove Loading Screen Once Page is Loaded ----------
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loading-screen');
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+      }, 500);
+    });
+
+    // ---------- Cart Functionality ----------
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    function updateCartCount() {
+      const count = cart.length;
+      document.querySelectorAll('.cart-count').forEach(el => el.textContent = count);
+    }
+    function showSuccessMessage() {
+      const success = document.getElementById('success-message');
+      success.style.display = 'block';
+      setTimeout(() => success.style.display = 'none', 2000);
+    }
+    // Use event delegation on the products grid to handle "Add to Cart" clicks.
+    document.getElementById('products-grid').addEventListener('click', function(e) {
+      if (e.target && e.target.matches('button.add-to-cart')) {
+        const productCard = e.target.closest('.product-card');
+        const product = {
+          id: Date.now(), // Unique cart item ID
+          productId: productCard.dataset.productId,
+          name: productCard.querySelector('h3').textContent,
+          price: parseFloat(productCard.querySelector('.price').textContent.replace('$', '')),
+          quantity: 1,
+          image: productCard.querySelector('img').src,
+          vendor: productCard.querySelector('.vendor') ? productCard.querySelector('.vendor').textContent : '',
+          category: productCard.dataset.category
+        };
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        showSuccessMessage();
+      }
+    });
+    updateCartCount();
+
+    // ---------- Category Filtering ----------
+    document.querySelectorAll('.filter-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+        const category = button.dataset.category;
+        document.querySelectorAll('.product-card').forEach(product => {
+          if (category === 'all' || product.dataset.category === category) {
+            product.style.display = 'block';
+          } else {
+            product.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // ---------- Hide Category Filters on Scroll ----------
+    const categoryFilters = document.getElementById('category-filters');
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        // Scrolling down: hide the filters
+        categoryFilters.style.top = "-70px";
+      } else {
+        // Scrolling up: show the filters
+        categoryFilters.style.top = "0";
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+  </script>
+
+  <!-- ---------- Pop-up Ad (Optional) ---------- -->
+  <div id="popup-ad" class="popup-ad">
+    <div class="popup-content">
+      <span class="close-popup" onclick="closePopup()">&times;</span>
+      <h2>🎉 Special Offer! 🎉</h2>
+      <p>Get <strong>10% OFF</strong> your first purchase!</p>
+      <a class="claim" href="coupon.html" id="claim-discount">Claim Coupon</a>
+    </div>
+  </div>
+  <script>
+    // Show pop-up after 5 seconds
+    setTimeout(() => {
+      document.getElementById('popup-ad').style.display = 'flex';
+    }, 5000);
+    // Close pop-up
+    function closePopup() {
+      document.getElementById('popup-ad').style.display = 'none';
+    }
+  </script>
+
+  <!-- ---------- Pop-up Ad Styles ---------- -->
+  <style>
+    .popup-ad {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .popup-content {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-out;
+    }
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+    .close-popup:hover {
+      color: #000;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</body>
+</html>

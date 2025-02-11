@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Confirmation - My Shopping Site</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Confirmation Page Styles */
+    .confirmation-main {
+      padding: 40px 20px;
+      background-color: #f8f9fa;
+      min-height: 70vh;
+    }
+    .confirmation-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .confirmation-details {
+      text-align: center;
+      padding: 20px;
+    }
+    .confirmation-icon {
+      color: #27ae60;
+      font-size: 4rem;
+      margin-bottom: 20px;
+    }
+    .confirmation-details h3 {
+      color: #2c3e50;
+      margin-bottom: 15px;
+    }
+    .confirmation-details p {
+      color: #666;
+      margin-bottom: 30px;
+    }
+    .order-info {
+      text-align: left;
+      max-width: 400px;
+      margin: 0 auto 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding: 8px 0;
+      border-bottom: 1px solid #ecf0f1;
+    }
+    .info-label {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    .info-value {
+      color: #666;
+    }
+    .tracking-info {
+      margin: 30px 0;
+    }
+    .btn-track {
+      padding: 15px 35px;
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-track:hover {
+      background: #2980b9;
+    }
+    .support-info {
+      margin-top: 20px;
+      color: #666;
+    }
+    .support-info a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    .support-info a:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 768px) {
+      .confirmation-icon {
+        font-size: 3rem;
+      }
+      .btn-track {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="fancy-header">
+    <!-- Same header as other pages -->
+  </header>
+
+  <main class="confirmation-main">
+    <div class="confirmation-container">
+      <h2>Order Confirmation</h2>
+      <div class="progress-steps">
+        <div class="step completed">1. Apply Coupon</div>
+        <div class="step completed">2. Make Payment</div>
+        <div class="step active">3. Confirmation</div>
+      </div>
+
+      <div class="confirmation-details">
+        <div class="confirmation-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Thank you for your order!</h3>
+        <p>Your payment has been processed. Here are your order details:</p>
+        
+        <div class="order-info">
+          <div class="info-item">
+            <span class="info-label">Order ID:</span>
+            <span class="info-value" id="order-id">ORD123456</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Order Status:</span>
+            <span class="info-value" id="order-status">Processing</span>
+          </div>
+        </div>
+
+        <div class="tracking-info">
+          <p>You can track your order using the button below:</p>
+          <button class="btn-track" onclick="window.location.href='tracking.html'">
+            <i class="fas fa-map-marker-alt"></i> Track Your Order
+          </button>
+        </div>
+
+        <div class="support-info">
+          <p>Need help? <a href="support.html">Contact our support team</a></p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Generate a new Order ID and load Order Status on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const orderId = 'ORD' + Date.now().toString().slice(-6);
+      const orderStatus = 'Processing';
+
+      document.getElementById('order-id').textContent = orderId;
+      document.getElementById('order-status').textContent = orderStatus;
+
+      // Save order details to localStorage (only Order ID and Status)
+      const order = {
+        id: orderId,
+        status: orderStatus,
+        date: new Date().toISOString()
+      };
+
+      const orders = JSON.parse(localStorage.getItem('orders')) || [];
+      orders.push(order);
+      localStorage.setItem('orders', JSON.stringify(orders));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply Coupon - My Shopping Site</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="fancy-header">
+        <!-- Same header as other pages -->
+    </header>
+
+    <main class="coupon-main">
+        <div class="coupon-container">
+            <h2>Apply Coupon</h2>
+            <div class="progress-steps">
+                <div class="step active">1. Apply Coupon</div>
+                <div class="step">2. Make Payment</div>
+                <div class="step">3. Confirmation</div>
+            </div>
+
+            <div class="discount-section">
+                <div class="coupon-box">
+                    <input type="text" id="coupon-code" placeholder="Enter coupon code">
+                    <button onclick="applyCoupon()">Apply Coupon</button>
+                </div>
+                <div class="offer-banner">
+                    <i class="fas fa-gift"></i>
+                    <p>Get 10% off with code: <strong>SAVE10</strong></p>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+                <div class="summary-item">
+                    <span>Subtotal:</span>
+                    <span id="summary-subtotal">$0.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Discount:</span>
+                    <span id="summary-discount">-$0.00</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span id="summary-total">$0.00</span>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-next" onclick="window.location.href='make-payment.html'">Next: Make Payment</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Load cart data
+        let subtotal = 0;
+        let discount = 0;
+        let total = 0;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            updateTotals();
+        });
+
+        function applyCoupon() {
+            const couponCode = document.getElementById('coupon-code').value;
+            if (couponCode === 'SAVE10') {
+                discount = subtotal * 0.10;
+                alert('10% discount applied!');
+            } else {
+                discount = 0;
+                alert('Invalid coupon code');
+            }
+            updateTotals();
+        }
+
+        function updateTotals() {
+            total = subtotal - discount;
+            document.getElementById('summary-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('summary-discount').textContent = `-$${discount.toFixed(2)}`;
+            document.getElementById('summary-total').textContent = `$${total.toFixed(2)}`;
+        }
+    </script>
+    <style>
+  /* Add these styles to your existing CSS */
+  .coupon-main {
+    padding: 40px 20px;
+    background-color: #f8f9fa;
+    min-height: 70vh;
+  }
+
+  .coupon-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .progress-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  .step {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    color: #bdc3c7;
+    border-bottom: 2px solid #ecf0f1;
+    font-size: 0.9em;
+  }
+
+  .step.active {
+    color: #2c3e50;
+    border-color: #3498db;
+  }
+
+  .discount-section {
+    margin: 25px 0;
+  }
+
+  .coupon-box {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  #coupon-code {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid #3498db;
+    border-radius: 25px;
+    font-size: 1em;
+  }
+
+  .coupon-box button {
+    padding: 12px 25px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s ease;
+  }
+
+  .coupon-box button:hover {
+    background: #219a52;
+  }
+
+  .offer-banner {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #2c3e50;
+  }
+
+  .offer-banner i {
+    color: #27ae60;
+    font-size: 1.2em;
+  }
+
+  .order-summary {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+  }
+
+  .summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #ecf0f1;
+  }
+
+  .summary-item.total {
+    font-weight: 600;
+    color: #2c3e50;
+    border-bottom: none;
+  }
+
+  .action-buttons {
+    text-align: right;
+    margin-top: 30px;
+  }
+
+  .btn-next {
+    padding: 15px 35px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .btn-next:hover {
+    background: #2980b9;
+  }
+
+  @media (max-width: 768px) {
+    .coupon-box {
+      flex-direction: column;
+    }
+
+    .coupon-box button {
+      width: 100%;
+    }
+
+    .btn-next {
+      width: 100%;
+    }
+
+    .step {
+      font-size: 0.8em;
+      padding: 5px;
+    }
+  }
+</style>
+</body>
+</html>

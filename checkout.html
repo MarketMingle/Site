@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout - MarketMingle</title>
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Font Awesome for social media icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  />
+</head>
+<body>
+  <style>
+      /* ---------- Header ---------- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background: hsla(288, 37%, 29%, 1);
+      padding: 10px 20px;
+      color: #fff;
+    }
+    header h1 {
+      font-size: 1.8rem;
+    }
+        nav ul {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav li a {
+      font-size: 1rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    nav li a:hover {
+      color: #ff6b6b;
+    }
+    </style>
+  <!-- Header -->
+   <header>
+    <h2>MarketMingle<div></div></h2>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+      
+        <li><a href="tracking.html">Track Orders</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <!-- Main Checkout Content -->
+  <main>
+    <section class="checkout">
+      <h2>Checkout</h2>
+      <!-- FormSubmit integration -->
+      <form
+        id="checkout-form"
+        action="https://formsubmit.co/1aaf0d8563b5b9ec1f0b55f5e8e1cdee"
+        method="POST"
+      >
+        <!-- Redirect to apply-coupon.html after successful submission -->
+        <input type="hidden" name="_next" value="apply-coupon.html" />
+        <!-- Optional: disable FormSubmit's built-in captcha -->
+        <input type="hidden" name="_captcha" value="false" />
+
+        <label for="name">Full Name:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="address">Shipping Address:</label>
+        <input type="text" id="address" name="address" required />
+
+        <label for="payment">Payment Method:</label>
+        <select id="payment" name="payment" required>
+          <option value="credit_card">Credit Card</option>
+          <option value="bank_transfer">Bank Transfer</option>
+        </select>
+
+        <button type="submit">Place Order</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+   
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 MarketMingle. All rights reserved.</p>
+    </div>
+  </footer>
+  
+  <script>
+  document.getElementById("checkout-form").addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevent default form submission
+    const form = event.target;
+
+    // Send form data to FormSubmit
+    fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+    })
+      .then(() => {
+        // Redirect to apply-coupon.html after successful submission
+        window.location.href = "apply-coupon.html";
+      })
+      .catch((error) => console.error("Form submission error:", error));
+  });
+</script>
+
+</body>
+</html>

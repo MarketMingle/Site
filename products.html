@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Listing</title>
+  <!-- Font Awesome for star and cart icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* Basic Reset and Body Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    /* ---------- Header ---------- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background: #1B8A54;
+      padding: 10px 20px;
+      color: #fff;
+    }
+    header h1 {
+      font-size: 1.8rem;
+    }
+    nav ul {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+    nav li a {
+      font-size: 1rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
+    nav li a:hover {
+      color: #ff6b6b;
+    }
+    /* Cart Icon as a Link */
+    .cart {
+      position: relative;
+      cursor: pointer;
+    }
+    .cart a {
+      display: inline-block;
+      position: relative;
+      color: inherit;
+    }
+    .cart i {
+      font-size: 1.5rem;
+    }
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.8rem;
+    }
+    
+    /* ---------- Products Grid Container ---------- */
+    .products-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    /* ---------- Product Card Styles ---------- */
+    .product-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-image img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .product-info {
+      margin-top: 10px;
+    }
+    .product-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .vendor-name {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .price {
+      color: #2ecc71;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .star-rating {
+      color: #f1c40f;
+      margin-bottom: 10px;
+    }
+    .add-to-cart {
+      background: #3498db;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .add-to-cart:hover {
+      background: #2980b9;
+    }
+    
+    /* ---------- Footer ---------- */
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    footer .footer-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    footer .footer-section {
+      flex: 1 1 200px;
+    }
+    footer h3 {
+      margin-bottom: 15px;
+    }
+    footer p, footer a {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    footer a:hover {
+      color: #fff;
+    }
+    footer .social-icons a {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      color: #ff6b6b;
+      transition: color 0.3s ease;
+    }
+    footer .social-icons a:hover {
+      color: #ff4c4c;
+    }
+    
+    /* ---------- Success Message ---------- */
+    .success-message {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #27ae60;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 5px;
+      display: none;
+      animation: slideIn 0.3s ease-out;
+      z-index: 1000;
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Cart Icon (clickable link to cart.html) -->
+  <header>
+    <h2>Market Mingle</h2>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li>
+          <a href="cart.html">
+            <div class="cart">
+              <i class="fas fa-shopping-cart"></i>
+              <div class="cart-count" id="cart-count">0</div>
+            </div>
+          </a>
+        </li>
+        <li><a href="tracking.html">Track Orders</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <!-- Products Grid Container -->
+  <div class="products-container" id="products-container">
+    <!-- Product cards will be generated here -->
+  </div>
+  
+  <!-- Success Message (hidden by default) -->
+  <div id="success-message" class="success-message">Item added to cart!</div>
+  
+  <script>
+    // Sample data: Array of 20 products with names included
+    const products = [
+      { id: 1, name: "Microphone Headset", vendor: "Office Tech", price: 740.89, rating: 4, image :  },
+      { id: 2, name: "Product 2", vendor: "Vendor B", price: 29.99, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+2" },
+      { id: 3, name: "Product 3", vendor: "Vendor C", price: 15.50, rating: 3, image: "https://via.placeholder.com/250x200?text=Product+3" },
+      { id: 4, name: "Product 4", vendor: "Vendor D", price: 45.00, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+4" },
+      { id: 5, name: "Product 5", vendor: "Vendor E", price: 12.75, rating: 2, image: "https://via.placeholder.com/250x200?text=Product+5" },
+      { id: 6, name: "Product 6", vendor: "Vendor F", price: 55.99, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+6" },
+      { id: 7, name: "Product 7", vendor: "Vendor G", price: 35.00, rating: 3, image: "https://via.placeholder.com/250x200?text=Product+7" },
+      { id: 8, name: "Product 8", vendor: "Vendor H", price: 22.50, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+8" },
+      { id: 9, name: "Product 9", vendor: "Vendor I", price: 39.99, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+9" },
+      { id: 10, name: "Product 10", vendor: "Vendor J", price: 17.00, rating: 3, image: "https://via.placeholder.com/250x200?text=Product+10" },
+      { id: 11, name: "Product 11", vendor: "Vendor K", price: 29.99, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+11" },
+      { id: 12, name: "Product 12", vendor: "Vendor L", price: 48.50, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+12" },
+      { id: 13, name: "Product 13", vendor: "Vendor M", price: 33.25, rating: 2, image: "https://via.placeholder.com/250x200?text=Product+13" },
+      { id: 14, name: "Product 14", vendor: "Vendor N", price: 27.80, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+14" },
+      { id: 15, name: "Product 15", vendor: "Vendor O", price: 19.99, rating: 3, image: "https://via.placeholder.com/250x200?text=Product+15" },
+      { id: 16, name: "Product 16", vendor: "Vendor P", price: 59.99, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+16" },
+      { id: 17, name: "Product 17", vendor: "Vendor Q", price: 21.99, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+17" },
+      { id: 18, name: "Product 18", vendor: "Vendor R", price: 40.00, rating: 2, image: "https://via.placeholder.com/250x200?text=Product+18" },
+      { id: 19, name: "Product 19", vendor: "Vendor S", price: 35.50, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+19" },
+      { id: 20, name: "Product 20", vendor: "Vendor T", price: 25.00, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+20" }
+    ];
+    
+    // Initialize the cart from localStorage so it matches the index page
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Helper function to generate star rating HTML
+    function generateStars(rating) {
+      let starsHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        if (i <= rating) {
+          starsHTML += '<i class="fas fa-star"></i> ';
+        } else {
+          starsHTML += '<i class="far fa-star"></i> ';
+        }
+      }
+      return starsHTML;
+    }
+    
+    // Render products on the page
+    function renderProducts() {
+      const container = document.getElementById('products-container');
+      container.innerHTML = ""; // Clear container
+      products.forEach(product => {
+        const productCard = document.createElement('div');
+        productCard.className = "product-card";
+        productCard.innerHTML = `
+          <div class="product-image">
+            <img src="${product.image}" alt="Product ${product.id}">
+          </div>
+          <div class="product-info">
+            <div class="product-name">${product.name}</div>
+            <div class="vendor-name">${product.vendor}</div>
+            <div class="price">$${product.price.toFixed(2)}</div>
+            <div class="star-rating">${generateStars(product.rating)}</div>
+            <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+          </div>
+        `;
+        container.appendChild(productCard);
+      });
+    }
+    
+    // Update the cart count display
+    function updateCartCount() {
+      document.getElementById('cart-count').textContent = cart.length;
+    }
+    
+    // Function to show the success message for 2 seconds
+    function showSuccessMessage() {
+      const success = document.getElementById('success-message');
+      success.style.display = 'block';
+      setTimeout(() => { success.style.display = 'none'; }, 2000);
+    }
+    
+    // Event delegation for "Add to Cart" button clicks
+    document.getElementById('products-container').addEventListener('click', function(e) {
+      if (e.target && e.target.matches('button.add-to-cart')) {
+        const productId = parseInt(e.target.getAttribute('data-product-id'));
+        const product = products.find(p => p.id === productId);
+        if (product) {
+          // Create a new object with a quantity property
+          const productToAdd = { ...product, quantity: 1 };
+          cart.push(productToAdd);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          updateCartCount();
+          showSuccessMessage();
+        }
+      }
+    });
+    
+    // Render products once the page loads
+    renderProducts();
+    updateCartCount();
+  </script>
+</body>
+</html>

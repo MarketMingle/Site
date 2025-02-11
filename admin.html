@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - My Shopping Site</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    /* ---------- Global Styles ---------- */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    header.fancy-header {
+      background: #1B8A54;
+      padding: 10px 20px;
+      color: #fff;
+      text-align: center;
+    }
+    main.admin-main {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .admin-container {
+      text-align: center;
+    }
+    .admin-container h2 {
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #1B8A54;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #15703a;
+    }
+    .orders-list {
+      margin-top: 20px;
+    }
+    .order-item {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+    }
+    .order-info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.95rem;
+    }
+    .order-info span, .order-info p {
+      margin: 2px 0;
+    }
+    .order-info label {
+      font-size: 0.9rem;
+      display: inline-block;
+      width: 110px;
+    }
+    .order-info input,
+    .order-info select {
+      padding: 5px;
+      margin-top: 2px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      font-size: 0.9rem;
+    }
+    .update-order {
+      margin-top: 10px;
+      background: #3498db;
+    }
+    .update-order:hover {
+      background: #2980b9;
+    }
+    /* ---------- Footer ---------- */
+    footer {
+      background: #333;
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    footer .footer-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    footer .footer-section {
+      flex: 1 1 200px;
+    }
+    footer h3 {
+      margin-bottom: 15px;
+    }
+    footer p, footer a {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+    footer a:hover {
+      color: #fff;
+    }
+    footer .social-icons a {
+      margin-right: 10px;
+      font-size: 1.2rem;
+      color: #ff6b6b;
+      transition: color 0.3s ease;
+    }
+    footer .social-icons a:hover {
+      color: #ff4c4c;
+    }
+  </style>
+</head>
+<body>
+  <header class="fancy-header">
+    <!-- Same header as other pages -->
+    <h1>Admin Login</h1>
+  </header>
+
+  <main class="admin-main">
+    <div class="admin-container" id="login-container">
+      <h2>Admin Login</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label>Username:</label>
+          <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+          <label>Password:</label>
+          <input type="password" id="password" required>
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+
+    <div class="admin-dashboard" id="dashboard" style="display: none;">
+      <h2>Order Management</h2>
+      <div class="orders-list" id="orders-list">
+        <!-- Orders will be populated here -->
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Retrieve orders from localStorage (ensure each order object includes:
+    // id, customerName, date, status, updated, deliveryDate, and location)
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    
+    const ADMIN_CREDENTIALS = { username: "admin", password: "preshh4l" };
+    
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        loadOrders();
+      } else {
+        alert('Invalid credentials');
+      }
+    });
+    
+    function loadOrders() {
+      const ordersList = document.getElementById('orders-list');
+      
+      // Sort orders by date (newest first, oldest last)
+      orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      ordersList.innerHTML = orders.map(order => `
+        <div class="order-item">
+          <div class="order-info">
+            <span><strong>Order #${order.id}</strong></span>
+            <span>Customer: ${order.customerName || 'N/A'}</span>
+            <span>Order Date: ${new Date(order.date).toLocaleDateString()}</span>
+            <div>
+              <label>Status:</label>
+              <select class="status-select" data-id="${order.id}">
+                <option ${order.status === 'ordered' ? 'selected' : ''}>ordered</option>
+                <option ${order.status === 'processed' ? 'selected' : ''}>processed</option>
+                <option ${order.status === 'shipped' ? 'selected' : ''}>shipped</option>
+                <option ${order.status === 'delivered' ? 'selected' : ''}>delivered</option>
+              </select>
+            </div>
+            <div>
+              <label>Delivery Date:</label>
+              <input type="date" class="delivery-date" data-id="${order.id}" value="${order.deliveryDate ? new Date(order.deliveryDate).toISOString().substring(0,10) : ''}">
+            </div>
+            <div>
+              <label>Location:</label>
+              <input type="text" class="delivery-location" data-id="${order.id}" value="${order.location || ''}">
+            </div>
+          </div>
+          <button class="update-order" data-id="${order.id}">Update Order Info</button>
+        </div>
+      `).join('');
+      
+      // Add event listeners for each update button
+      document.querySelectorAll('.update-order').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const orderId = e.target.dataset.id;
+          updateOrderInfo(orderId);
+        });
+      });
+    }
+    
+    function updateOrderInfo(orderId) {
+      const order = orders.find(o => o.id == orderId);
+      if(order) {
+        const newStatus = document.querySelector(`.status-select[data-id="${orderId}"]`).value;
+        const newDeliveryDate = document.querySelector(`.delivery-date[data-id="${orderId}"]`).value;
+        const newLocation = document.querySelector(`.delivery-location[data-id="${orderId}"]`).value;
+        order.status = newStatus;
+        order.deliveryDate = newDeliveryDate;
+        order.location = newLocation;
+        order.updated = new Date().toISOString();
+        localStorage.setItem('orders', JSON.stringify(orders));
+        alert("Order updated successfully.");
+        loadOrders();
+      }
+    }
+  </script>
+  
+</body>
+</html>
