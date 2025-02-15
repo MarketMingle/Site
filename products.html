@@ -3,92 +3,193 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Listing</title>
-  <!-- Font Awesome for star and cart icons -->
+  <title>MarketMingle - Products</title>
+  <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* Basic Reset and Body Styles */
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
+    /* ---------- Global Styles ---------- */
+    * {
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
     }
-    /* ---------- Header ---------- */
-    header {
+    body {
+      background: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+    }
+    
+    /* ---------- Header (Same as Index) ---------- */
+    header.header {
+      background: linear-gradient(135deg, #11CBAD, #0E8281);
+      padding: 5px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: auto;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      background: #1B8A54;
-      padding: 10px 20px;
-      color: #fff;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
-    header h1 {
-      font-size: 1.8rem;
+    .header-container h1 {
+      font-size: 1.5rem;
+      color: #fff;
+      margin: 0;
+    }
+    .search-container {
+      flex: 1;
+      margin: 0 10px;
+      max-width: 400px;
+    }
+    .search-container input {
+      width: 100%;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      font-size: 0.9rem;
     }
     nav ul {
       display: flex;
-      gap: 20px;
+      gap: 15px;
       align-items: center;
       margin: 0;
       padding: 0;
     }
     nav li a {
-      font-size: 1rem;
-      color: #fff;
       display: flex;
       align-items: center;
+      font-size: 0.9rem;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+    nav li a i {
+      margin-right: 5px;
+      font-size: 1.1rem;
     }
     nav li a:hover {
       color: #ff6b6b;
     }
-    /* Cart Icon as a Link */
-    .cart {
+    .cart-icon {
       position: relative;
-      cursor: pointer;
-    }
-    .cart a {
-      display: inline-block;
-      position: relative;
-      color: inherit;
-    }
-    .cart i {
       font-size: 1.5rem;
+      display: inline-block;
+      color: #fff;
     }
-    .cart-count {
+    .cart-icon .cart-count {
       position: absolute;
       top: -8px;
-      right: -8px;
+      right: -12px;
       background: red;
-      color: white;
+      color: #fff;
       border-radius: 50%;
       padding: 2px 6px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+    }
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 5px 10px;
+      }
+      .header-container h1 {
+        font-size: 1.5rem;
+      }
+      .search-container {
+        width: 90%;
+        margin: 5px 0;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+      }
     }
     
-    /* ---------- Products Grid Container ---------- */
-    .products-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 20px;
+    /* ---------- Hero Section ---------- */
+    .hero {
+      background: url('https://i.ibb.co/20ZpF1bC/4466c7d546754e18897dd3deb9e1b7a9.jpg') no-repeat center center/cover;
+      height: 300px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      position: relative;
     }
-    /* ---------- Product Card Styles ---------- */
+    .hero::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.3);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .hero-content h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+    }
+    .hero-content p {
+      font-size: 1.1rem;
+    }
+    
+    /* ---------- Products Grid ---------- */
+    .products-grid {
+      max-width: 1200px;
+      margin: 30px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 0 20px;
+    }
     .product-card {
       background: #fff;
       border-radius: 10px;
-      padding: 15px;
+      overflow: hidden;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+    }
+    .product-image {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
     }
     .product-image img {
       width: 100%;
-      border-radius: 10px;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
     }
     .product-info {
-      margin-top: 10px;
+      padding: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     .product-name {
       font-size: 1.2rem;
@@ -98,9 +199,10 @@
     .vendor-name {
       font-weight: bold;
       margin-bottom: 5px;
+      color: #333;
     }
     .price {
-      color: #2ecc71;
+      color: #27ae60;
       font-weight: bold;
       margin-bottom: 5px;
     }
@@ -108,21 +210,42 @@
       color: #f1c40f;
       margin-bottom: 10px;
     }
-    .add-to-cart {
-      background: #3498db;
-      color: #fff;
+    .product-description {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    .card-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+    }
+    .add-to-cart, .quick-view {
+      flex: 1;
       border: none;
       padding: 10px;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      transition: background 0.3s ease;
+    }
+    .add-to-cart {
+      background: #3498db;
+      color: #fff;
     }
     .add-to-cart:hover {
       background: #2980b9;
     }
+    .quick-view {
+      background: #ff6b6b;
+      color: #fff;
+    }
+    .quick-view:hover {
+      background: #ff4c4c;
+    }
     
-    /* ---------- Footer ---------- */
-    footer {
+    /* ---------- Footer (Same as Index) ---------- */
+    footer.classy-footer {
       background: #333;
       color: #fff;
       padding: 30px 20px;
@@ -159,6 +282,27 @@
     footer .social-icons a:hover {
       color: #ff4c4c;
     }
+    footer .newsletter {
+      margin-top: 20px;
+    }
+    footer .newsletter input {
+      padding: 8px;
+      border: none;
+      border-radius: 20px;
+      margin-right: 10px;
+    }
+    footer .newsletter button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      background: #ff6b6b;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    footer .newsletter button:hover {
+      background: #ff4c4c;
+    }
     
     /* ---------- Success Message ---------- */
     .success-message {
@@ -166,7 +310,7 @@
       bottom: 20px;
       right: 20px;
       background: #27ae60;
-      color: white;
+      color: #fff;
       padding: 15px 25px;
       border-radius: 5px;
       display: none;
@@ -177,121 +321,465 @@
       from { transform: translateX(100%); }
       to { transform: translateX(0); }
     }
+    
+    /* ---------- Loading Screen ---------- */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f4f4f4;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease-out;
+    }
+    .loader {
+      border: 12px solid #f3f3f3;
+      border-top: 12px solid #2575fc;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      animation: spin 4.5s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #loading-screen p {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    
+    /* ---------- Modal Quick View ---------- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+    
+    /* ---------- Back to Top Button ---------- */
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #3498db;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      z-index: 1500;
+      transition: background 0.3s ease;
+    }
+    #back-to-top:hover {
+      background: #2980b9;
+    }
+    
+    /* ---------- Responsive Adjustments ---------- */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 5px 10px;
+      }
+      .header-container h1 {
+        font-size: 1.5rem;
+      }
+      .search-container {
+        width: 90%;
+        margin: 5px 0;
+      }
+      nav ul {
+        justify-content: center;
+        width: 100%;
+      }
+      .product-image {
+        height: 180px;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Header with Cart Icon (clickable link to cart.html) -->
-  <header>
-    <h2>Market Mingle</h2>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li>
-          <a href="cart.html">
-            <div class="cart">
-              <i class="fas fa-shopping-cart"></i>
-              <div class="cart-count" id="cart-count">0</div>
-            </div>
-          </a>
-        </li>
-        <li><a href="tracking.html">Track Orders</a></li>
-      </ul>
-    </nav>
-  </header>
-  
-  <!-- Products Grid Container -->
-  <div class="products-container" id="products-container">
-    <!-- Product cards will be generated here -->
+  <!-- ---------- Loading Screen ---------- -->
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <p>Loading...</p>
   </div>
   
-  <!-- Success Message (hidden by default) -->
+  <!-- ---------- Header (Reuse from Index) ---------- -->
+  <header class="header">
+    <div class="header-container">
+      <h1>MarketMingle</h1>
+      <div class="search-container">
+        <input type="text" placeholder="Search products..." />
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+          <li>
+            <a href="cart.html">
+              <i class="fas fa-shopping-cart"></i>
+              <span>Cart</span>
+              <span class="cart-icon">
+                <span class="cart-count" id="cart-count">0</span>
+              </span>
+            </a>
+          </li>
+          <li><a href="tracking.html"><i class="fas fa-truck"></i><span>Track Orders</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- ---------- Hero Section ---------- -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="animated-text">Our Products</h1>
+      <p class="animated-text">Explore premium products with detailed info</p>
+    </div>
+  </section>
+  
+  <!-- ---------- Products Grid ---------- -->
+  <section class="products-grid" id="products-grid">
+    <!-- Product cards will be generated via JavaScript -->
+  </section>
+  
+  <!-- ---------- Modal Quick View ---------- -->
+  <div id="quickViewModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div id="modalProductContent">
+        <!-- Quick view content will be injected here -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- ---------- Back to Top Button ---------- -->
+  <div id="back-to-top"><i class="fas fa-chevron-up"></i></div>
+  
+  <!-- ---------- Footer (Reuse from Index) ---------- -->
+  <footer class="classy-footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>About Us</h3>
+        <p>We are a leading online store dedicated to offering the best products at competitive prices.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="cart.html">Cart</a></li>
+          <li><a href="tracking.html">Track Orders</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-square"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter-square"></i></a>
+        </div>
+      </div>
+      <div class="footer-section newsletter">
+        <h3>Newsletter</h3>
+        <p>Sign up for exclusive deals and updates:</p>
+        <input type="email" placeholder="Enter your email" />
+        <button>Subscribe</button>
+      </div>
+    </div>
+    <p style="margin-top: 20px;">&copy; 2025 MarketMingle. All Rights Reserved.</p>
+  </footer>
+  
+  <!-- ---------- Success Message ---------- -->
   <div id="success-message" class="success-message">Item added to cart!</div>
   
   <script>
-    // Sample data: Array of 20 products with names included
+    // ---------- Remove Loading Screen using DOMContentLoaded ----------
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadingScreen = document.getElementById('loading-screen');
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+      
+      // Initialize product rendering once the DOM is ready
+      renderProducts();
+      updateCartCount();
+    });
+    
+    // Sample product data (20 products) with descriptions
     const products = [
-      { id: 1, name: "Microphone Headset", vendor: "Office Tech", price: 740.89, rating: 4, image :  },
-      { id: 2, name: "Product 2", vendor: "Vendor B", price: 29.99, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+2" },
-      { id: 3, name: "Product 3", vendor: "Vendor C", price: 15.50, rating: 3, image: "https://via.placeholder.com/250x200?text=Product+3" },
-      { id: 4, name: "Product 4", vendor: "Vendor D", price: 45.00, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+4" },
-      { id: 5, name: "Product 5", vendor: "Vendor E", price: 12.75, rating: 2, image: "https://via.placeholder.com/250x200?text=Product+5" },
-      { id: 6, name: "Product 6", vendor: "Vendor F", price: 55.99, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+6" },
-      { id: 7, name: "Product 7", vendor: "Vendor G", price: 35.00, rating: 3, image: "https://via.placeholder.com/250x200?text=Product+7" },
-      { id: 8, name: "Product 8", vendor: "Vendor H", price: 22.50, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+8" },
-      { id: 9, name: "Product 9", vendor: "Vendor I", price: 39.99, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+9" },
-      { id: 10, name: "Product 10", vendor: "Vendor J", price: 17.00, rating: 3, image: "https://via.placeholder.com/250x200?text=Product+10" },
-      { id: 11, name: "Product 11", vendor: "Vendor K", price: 29.99, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+11" },
-      { id: 12, name: "Product 12", vendor: "Vendor L", price: 48.50, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+12" },
-      { id: 13, name: "Product 13", vendor: "Vendor M", price: 33.25, rating: 2, image: "https://via.placeholder.com/250x200?text=Product+13" },
-      { id: 14, name: "Product 14", vendor: "Vendor N", price: 27.80, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+14" },
-      { id: 15, name: "Product 15", vendor: "Vendor O", price: 19.99, rating: 3, image: "https://via.placeholder.com/250x200?text=Product+15" },
-      { id: 16, name: "Product 16", vendor: "Vendor P", price: 59.99, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+16" },
-      { id: 17, name: "Product 17", vendor: "Vendor Q", price: 21.99, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+17" },
-      { id: 18, name: "Product 18", vendor: "Vendor R", price: 40.00, rating: 2, image: "https://via.placeholder.com/250x200?text=Product+18" },
-      { id: 19, name: "Product 19", vendor: "Vendor S", price: 35.50, rating: 4, image: "https://via.placeholder.com/250x200?text=Product+19" },
-      { id: 20, name: "Product 20", vendor: "Vendor T", price: 25.00, rating: 5, image: "https://via.placeholder.com/250x200?text=Product+20" }
+      {
+        id: 1,
+        name: "Microphone Headset",
+        vendor: "Office Tech",
+        price: 740.89,
+        rating: 4,
+        image: "https://via.placeholder.com/250x200?text=Product+1",
+        description: "Premium headset with crystal clear sound and ergonomic design."
+      },
+      {
+        id: 2,
+        name: "Wireless Earbuds",
+        vendor: "SoundWave",
+        price: 59.99,
+        rating: 5,
+        image: "https://via.placeholder.com/250x200?text=Product+2",
+        description: "Compact, true wireless earbuds with long battery life."
+      },
+      {
+        id: 3,
+        name: "Smartphone Stand",
+        vendor: "GadgetPro",
+        price: 15.50,
+        rating: 3,
+        image: "https://via.placeholder.com/250x200?text=Product+3",
+        description: "Adjustable smartphone stand ideal for video calls and streaming."
+      },
+      {
+        id: 4,
+        name: "Bluetooth Speaker",
+        vendor: "AudioMax",
+        price: 45.00,
+        rating: 4,
+        image: "https://via.placeholder.com/250x200?text=Product+4",
+        description: "Portable Bluetooth speaker with powerful bass and clear sound."
+      },
+      {
+        id: 5,
+        name: "Fitness Tracker",
+        vendor: "FitLife",
+        price: 12.75,
+        rating: 2,
+        image: "https://via.placeholder.com/250x200?text=Product+5",
+        description: "Lightweight fitness tracker to monitor your daily activities."
+      },
+      {
+        id: 6,
+        name: "LED Desk Lamp",
+        vendor: "BrightTech",
+        price: 55.99,
+        rating: 5,
+        image: "https://via.placeholder.com/250x200?text=Product+6",
+        description: "Energy-efficient LED desk lamp with adjustable brightness."
+      },
+      {
+        id: 7,
+        name: "Portable Charger",
+        vendor: "PowerUp",
+        price: 35.00,
+        rating: 3,
+        image: "https://via.placeholder.com/250x200?text=Product+7",
+        description: "Compact portable charger to keep your devices powered on the go."
+      },
+      {
+        id: 8,
+        name: "Wireless Mouse",
+        vendor: "ClickPro",
+        price: 22.50,
+        rating: 4,
+        image: "https://via.placeholder.com/250x200?text=Product+8",
+        description: "Ergonomic wireless mouse with precision tracking."
+      },
+      {
+        id: 9,
+        name: "Gaming Keyboard",
+        vendor: "KeyMaster",
+        price: 39.99,
+        rating: 5,
+        image: "https://via.placeholder.com/250x200?text=Product+9",
+        description: "Mechanical gaming keyboard with customizable RGB lighting."
+      },
+      {
+        id: 10,
+        name: "USB-C Hub",
+        vendor: "TechGear",
+        price: 17.00,
+        rating: 3,
+        image: "https://via.placeholder.com/250x200?text=Product+10",
+        description: "Multiport USB-C hub to expand connectivity options."
+      },
+      {
+        id: 11,
+        name: "Wireless Charger",
+        vendor: "ChargeIt",
+        price: 29.99,
+        rating: 4,
+        image: "https://via.placeholder.com/250x200?text=Product+11",
+        description: "Fast wireless charger compatible with all Qi-enabled devices."
+      },
+      {
+        id: 12,
+        name: "Smartwatch",
+        vendor: "TimeTech",
+        price: 48.50,
+        rating: 5,
+        image: "https://via.placeholder.com/250x200?text=Product+12",
+        description: "Feature-packed smartwatch with health monitoring and notifications."
+      },
+      {
+        id: 13,
+        name: "Laptop Sleeve",
+        vendor: "CarryPro",
+        price: 33.25,
+        rating: 2,
+        image: "https://via.placeholder.com/250x200?text=Product+13",
+        description: "Sleek and durable laptop sleeve to protect your device on the go."
+      },
+      {
+        id: 14,
+        name: "Noise Cancelling Headphones",
+        vendor: "SoundGuard",
+        price: 27.80,
+        rating: 4,
+        image: "https://via.placeholder.com/250x200?text=Product+14",
+        description: "High-quality noise cancelling headphones for immersive sound."
+      },
+      {
+        id: 15,
+        name: "Action Camera",
+        vendor: "AdventureCam",
+        price: 19.99,
+        rating: 3,
+        image: "https://via.placeholder.com/250x200?text=Product+15",
+        description: "Compact action camera ideal for capturing outdoor adventures."
+      },
+      {
+        id: 16,
+        name: "Portable Bluetooth Speaker",
+        vendor: "BeatBox",
+        price: 59.99,
+        rating: 5,
+        image: "https://via.placeholder.com/250x200?text=Product+16",
+        description: "Rugged and portable Bluetooth speaker with deep bass."
+      },
+      {
+        id: 17,
+        name: "Wireless Earphones",
+        vendor: "EarFun",
+        price: 21.99,
+        rating: 4,
+        image: "https://via.placeholder.com/250x200?text=Product+17",
+        description: "Sleek wireless earphones with noise isolation for clear calls."
+      },
+      {
+        id: 18,
+        name: "Portable Projector",
+        vendor: "VisionPro",
+        price: 40.00,
+        rating: 2,
+        image: "https://via.placeholder.com/250x200?text=Product+18",
+        description: "Compact projector to turn any wall into your personal screen."
+      },
+      {
+        id: 19,
+        name: "Fitness Smart Scale",
+        vendor: "WeighRight",
+        price: 35.50,
+        rating: 4,
+        image: "https://via.placeholder.com/250x200?text=Product+19",
+        description: "Smart scale that tracks weight, BMI, and body composition."
+      },
+      {
+        id: 20,
+        name: "USB Flash Drive",
+        vendor: "DataStore",
+        price: 25.00,
+        rating: 5,
+        image: "https://via.placeholder.com/250x200?text=Product+20",
+        description: "High-speed USB flash drive with ample storage capacity."
+      }
     ];
     
-    // Initialize the cart from localStorage so it matches the index page
+    // Initialize cart from localStorage
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     
     // Helper function to generate star rating HTML
     function generateStars(rating) {
       let starsHTML = "";
       for (let i = 1; i <= 5; i++) {
-        if (i <= rating) {
-          starsHTML += '<i class="fas fa-star"></i> ';
-        } else {
-          starsHTML += '<i class="far fa-star"></i> ';
-        }
+        starsHTML += (i <= rating) ? '<i class="fas fa-star"></i> ' : '<i class="far fa-star"></i> ';
       }
       return starsHTML;
     }
     
-    // Render products on the page
+    // Render products into the grid
     function renderProducts() {
-      const container = document.getElementById('products-container');
-      container.innerHTML = ""; // Clear container
+      const container = document.getElementById('products-grid');
+      container.innerHTML = "";
       products.forEach(product => {
-        const productCard = document.createElement('div');
-        productCard.className = "product-card";
-        productCard.innerHTML = `
+        const card = document.createElement('div');
+        card.className = "product-card";
+        card.setAttribute("data-product-id", product.id);
+        card.innerHTML = `
           <div class="product-image">
-            <img src="${product.image}" alt="Product ${product.id}">
+            <img src="${product.image}" alt="${product.name}">
           </div>
           <div class="product-info">
             <div class="product-name">${product.name}</div>
             <div class="vendor-name">${product.vendor}</div>
             <div class="price">$${product.price.toFixed(2)}</div>
             <div class="star-rating">${generateStars(product.rating)}</div>
-            <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+            <div class="product-description">${product.description}</div>
+            <div class="card-buttons">
+              <button class="add-to-cart" data-product-id="${product.id}">Add to Cart</button>
+              <button class="quick-view" data-product-id="${product.id}">Quick View</button>
+            </div>
           </div>
         `;
-        container.appendChild(productCard);
+        container.appendChild(card);
       });
     }
     
-    // Update the cart count display
+    // Update cart count display
     function updateCartCount() {
       document.getElementById('cart-count').textContent = cart.length;
     }
     
-    // Function to show the success message for 2 seconds
+    // Show success message for 2 seconds
     function showSuccessMessage() {
-      const success = document.getElementById('success-message');
-      success.style.display = 'block';
-      setTimeout(() => { success.style.display = 'none'; }, 2000);
+      const msg = document.getElementById('success-message');
+      msg.style.display = 'block';
+      setTimeout(() => { msg.style.display = 'none'; }, 2000);
     }
     
-    // Event delegation for "Add to Cart" button clicks
-    document.getElementById('products-container').addEventListener('click', function(e) {
-      if (e.target && e.target.matches('button.add-to-cart')) {
-        const productId = parseInt(e.target.getAttribute('data-product-id'));
-        const product = products.find(p => p.id === productId);
-        if (product) {
-          // Create a new object with a quantity property
-          const productToAdd = { ...product, quantity: 1 };
-          cart.push(productToAdd);
+    // Add to cart event listener using delegation
+    document.getElementById('products-grid').addEventListener('click', (e) => {
+      if (e.target.classList.contains('add-to-cart')) {
+        const pid = parseInt(e.target.getAttribute('data-product-id'));
+        const prod = products.find(p => p.id === pid);
+        if (prod) {
+          const prodToAdd = { ...prod, quantity: 1 };
+          cart.push(prodToAdd);
           localStorage.setItem('cart', JSON.stringify(cart));
           updateCartCount();
           showSuccessMessage();
@@ -299,9 +787,93 @@
       }
     });
     
-    // Render products once the page loads
-    renderProducts();
+    // Quick View Modal functionality
+    document.getElementById('products-grid').addEventListener('click', (e) => {
+      if (e.target.classList.contains('quick-view')) {
+        const pid = parseInt(e.target.getAttribute('data-product-id'));
+        const prod = products.find(p => p.id === pid);
+        if (prod) {
+          document.getElementById('modalProductContent').innerHTML = `
+            <div style="display:flex; flex-wrap:wrap;">
+              <div style="flex:1; min-width:200px; padding:10px;">
+                <img src="${prod.image}" alt="${prod.name}" style="width:100%; border-radius:5px;">
+              </div>
+              <div style="flex:1; min-width:200px; padding:10px;">
+                <h2>${prod.name}</h2>
+                <p>${prod.description}</p>
+                <p style="font-size:1.2rem; color:#27ae60;">Price: $${prod.price.toFixed(2)}</p>
+                <p style="color:#555;">Vendor: ${prod.vendor}</p>
+                <button class="add-to-cart" data-product-id="${prod.id}" style="background:#3498db; color:#fff; padding:10px; border:none; border-radius:5px; cursor:pointer;">Add to Cart</button>
+              </div>
+            </div>
+          `;
+          modal.style.display = 'flex';
+        }
+      }
+    });
+    document.querySelector('.modal-close').addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+    window.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('quickViewModal')) {
+        document.getElementById('quickViewModal').style.display = 'none';
+      }
+    });
+    
+    // Update cart count when page loads (if DOMContentLoaded has fired, renderProducts() was already called)
     updateCartCount();
   </script>
+  
+  <!-- ---------- Pop-up Ad (Optional) ---------- -->
+  <div id="popup-ad" class="popup-ad">
+    <div class="popup-content">
+      <span class="close-popup" onclick="closePopup()">&times;</span>
+      <h2>Special Offer!</h2>
+      <p>Get <strong>10% OFF</strong> your first purchase!</p>
+      <a class="claim" href="coupon.html" id="claim-discount">Claim Coupon</a>
+    </div>
+  </div>
+  <script>
+    setTimeout(() => { document.getElementById('popup-ad').style.display = 'flex'; }, 5000);
+    function closePopup() { document.getElementById('popup-ad').style.display = 'none'; }
+  </script>
+  <style>
+    .popup-ad {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .popup-content {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+      max-width: 400px;
+      animation: fadeIn 0.5s ease-out;
+    }
+    .close-popup {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+    .close-popup:hover {
+      color: #000;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </body>
 </html>

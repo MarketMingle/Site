@@ -4,115 +4,232 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Checkout - MarketMingle</title>
-  <link rel="stylesheet" href="styles.css" />
   <!-- Font Awesome for social media icons -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-  />
-</head>
-<body>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-      /* ---------- Header ---------- */
+    /* ---------- Global Styles ---------- */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    /* ---------- Header Styling ---------- */
     header {
+      background: linear-gradient(135deg, #11CBAD, #0E8281);
+      color: #fff;
+      padding: 15px 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1000;
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
-      background: hsla(288, 37%, 29%, 1);
-      padding: 10px 20px;
-      color: #fff;
+      flex-wrap: wrap;
     }
-    header h1 {
-      font-size: 1.8rem;
+    .logo h1 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0;
     }
-        nav ul {
+    nav ul {
+      list-style: none;
       display: flex;
-      gap: 20px;
-      align-items: center;
+      gap: 30px;
       margin: 0;
       padding: 0;
     }
-    nav li a {
-      font-size: 1rem;
+    nav ul li a {
       color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 5px 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -3px;
+      left: 0;
+      background: #fff;
+      transition: width 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #ffcc00;
+    }
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+    /* ---------- Main Checkout Styling ---------- */
+    main {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    main h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+      color: #333;
+    }
+    form {
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      gap: 15px;
     }
-    nav li a:hover {
-      color: #ff6b6b;
+    label {
+      font-size: 1rem;
+      color: #555;
     }
-    </style>
+    input[type="text"],
+    select {
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+    input[type="text"]:focus,
+    select:focus {
+      border-color: #2575fc;
+    }
+    button[type="submit"] {
+      padding: 10px;
+      font-size: 1rem;
+      background: #2575fc;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button[type="submit"]:hover {
+      background: #6a11cb;
+    }
+    /* ---------- Footer Styling ---------- */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
   <!-- Header -->
-   <header>
-    <h2>MarketMingle<div></div></h2>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-      
-        <li><a href="tracking.html">Track Orders</a></li>
-      </ul>
-    </nav>
+  <header>
+    <div class="header-container">
+      <div class="logo">
+        <h1>MarketMingle</h1>
+      </div>
+      <nav>
+        <ul>
+           <li>
+   <a href="index.html">
+     <i class="fas fa-home"></i>
+     <span>Home</span>
+   </a>
+ </li>
+        </ul>
+      </nav>
+    </div>
   </header>
   
   <!-- Main Checkout Content -->
   <main>
-    <section class="checkout">
-      <h2>Checkout</h2>
-      <!-- FormSubmit integration -->
-      <form
-        id="checkout-form"
-        action="https://formsubmit.co/1aaf0d8563b5b9ec1f0b55f5e8e1cdee"
-        method="POST"
-      >
-        <!-- Redirect to apply-coupon.html after successful submission -->
-        <input type="hidden" name="_next" value="apply-coupon.html" />
-        <!-- Optional: disable FormSubmit's built-in captcha -->
-        <input type="hidden" name="_captcha" value="false" />
+    <h2>Checkout</h2>
+    <!-- FormSubmit integration -->
+    <form id="checkout-form" action="https://formsubmit.co/1aaf0d8563b5b9ec1f0b55f5e8e1cdee" method="POST">
+      <!-- Redirect to apply-coupon.html after successful submission -->
+      <input type="hidden" name="_next" value="apply-coupon.html" />
+      <!-- Optional: disable FormSubmit's built-in captcha -->
+      <input type="hidden" name="_captcha" value="false" />
 
-        <label for="name">Full Name:</label>
-        <input type="text" id="name" name="name" required />
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" name="name" required />
 
-        <label for="address">Shipping Address:</label>
-        <input type="text" id="address" name="address" required />
+      <label for="address">Shipping Address:</label>
+      <input type="text" id="address" name="address" required />
 
-        <label for="payment">Payment Method:</label>
-        <select id="payment" name="payment" required>
-          <option value="credit_card">Credit Card</option>
-          <option value="bank_transfer">Bank Transfer</option>
-        </select>
+      <label for="payment">Payment Method:</label>
+      <select id="payment" name="payment" required>
+        <option value="credit_card">Crypto Payment</option>
+        <option value="bank_transfer">Bank Transfer</option>
+      </select>
 
-        <button type="submit">Place Order</button>
-      </form>
-    </section>
+      <button type="submit">Place Order</button>
+    </form>
   </main>
 
   <!-- Footer -->
   <footer>
-   
-    
-    <div class="footer-bottom">
-      <p>&copy; 2025 MarketMingle. All rights reserved.</p>
-    </div>
+    <p>&copy; 2025 MarketMingle. All rights reserved.</p>
   </footer>
   
   <script>
-  document.getElementById("checkout-form").addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent default form submission
-    const form = event.target;
+    document.getElementById("checkout-form").addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent default form submission
+      
+      const form = event.target;
+      const now = new Date();
+      
+      // Build an order object with the required properties:
+      const order = {
+        id: 'ORD' + now.getTime(),                              // Unique order ID
+        status: 'ordered',                                      // Initial order status
+        updated: now.toISOString(),                             // Last updated timestamp
+        deliveryDate: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Estimated delivery (7 days later)
+        date: now.toISOString(),                                // Order placed timestamp
+        homeAddress: document.getElementById("address").value,  // Shipping address as home address
+        location: document.getElementById("address").value,     // Also used for location if needed
+        currentLocation: "Not Processed",                       // Default current location
+        destination: document.getElementById("address").value,  // Destination (same as shipping address)
+        customerName: document.getElementById("name").value       // Customer's full name
+      };
 
-    // Send form data to FormSubmit
-    fetch(form.action, {
-      method: form.method,
-      body: new FormData(form),
-    })
+      // Store the current order ID for later use on the confirmation page
+      localStorage.setItem("currentOrderId", order.id);
+      
+      // Retrieve existing orders from localStorage or initialize an empty array
+      let orders = JSON.parse(localStorage.getItem("orders")) || [];
+      orders.push(order);
+      localStorage.setItem("orders", JSON.stringify(orders));
+      
+      // Submit the form data to FormSubmit using fetch
+      fetch(form.action, {
+        method: form.method,
+        body: new FormData(form),
+      })
       .then(() => {
         // Redirect to apply-coupon.html after successful submission
         window.location.href = "apply-coupon.html";
       })
       .catch((error) => console.error("Form submission error:", error));
-  });
-</script>
-
+    });
+  </script>
 </body>
 </html>

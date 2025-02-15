@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MarketMingle</title>
-  <link rel="stylesheet" href="styles.css"> <!-- External CSS if needed -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  
+  <link rel="stylesheet" href="styles.css" /> <!-- External CSS if needed -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
   <!-- ---------- Global and Page Styles ---------- -->
   <style>
     /* ---------- Global Styles ---------- */
@@ -31,11 +31,11 @@
     ul {
       list-style: none;
     }
-    
-    /* ---------- Header ---------- */
-    header.fancy-header {
-      background: hsla(288, 37%, 29%, 1);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    /* ---------- Header (New Gradient Design & Responsive) ---------- */
+    header.header {
+      background: linear-gradient(135deg, #11CBAD, #0E8281);
+      padding: 5px 10px;
       position: sticky;
       top: 0;
       z-index: 100;
@@ -43,36 +43,49 @@
     .header-container {
       max-width: 1200px;
       margin: auto;
-      padding: 10px 20px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
     .header-container h1 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       color: #fff;
+      margin: 0;
     }
-    .picks {
-      margin-left: 50px;
+    .search-container {
+      flex: 1;
+      margin: 0 10px;
+      max-width: 400px;
     }
-    nav {}
+    .search-container input {
+      width: 100%;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      font-size: 0.9rem;
+    }
     nav ul {
       display: flex;
-      gap: 20px;
+      gap: 15px;
       align-items: center;
-      justify-content: flex-end;
+      margin: 0;
+      padding: 0;
     }
     nav li a {
-      font-size: 1rem;
-      color: #fff;
-      padding: 5px 10px;
       display: flex;
       align-items: center;
+      font-size: 0.9rem;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+    nav li a i {
+      margin-right: 5px;
+      font-size: 1.1rem;
     }
     nav li a:hover {
       color: #ff6b6b;
     }
-    /* Cart Icon Styling */
     .cart-icon {
       position: relative;
       font-size: 1.5rem;
@@ -89,10 +102,30 @@
       padding: 2px 6px;
       font-size: 0.75rem;
     }
+    /* Responsive adjustments for header */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 5px 10px;
+      }
+      .header-container h1 {
+        font-size: 1.5rem;
+      }
+      .search-container {
+        width: 90%;
+        margin: 5px 0;
+      }
+      nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+      }
+    }
 
     /* ---------- Hero Section ---------- */
     .hero {
-      background: url('images/hero-bg.jpg') no-repeat center center/cover;
+      background: url('https://i.ibb.co/JjZSXJNN/7aa5938bde9d611d8b0a07f2228e4b38.jpg') no-repeat center center/cover;
       height: 400px;
       display: flex;
       justify-content: center;
@@ -122,6 +155,43 @@
       font-size: 1.2rem;
     }
 
+    /* ---------- New Slider Section (with slide effects) ---------- */
+    .slider-section {
+      max-width: 1200px;
+      margin: 30px auto;
+      position: relative;
+      overflow: hidden;
+      height: 300px;
+    }
+    .slider-container {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slide {
+      min-width: 100%;
+      height: 300px;
+      background-size: cover;
+      background-position: center;
+    }
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+    .slider-nav button {
+      background: rgba(0,0,0,0.5);
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      pointer-events: all;
+      cursor: pointer;
+      padding: 5px 10px;
+    }
+
     /* ---------- Category Filters ---------- */
     .category-filters {
       background: #fff;
@@ -139,6 +209,7 @@
       justify-content: center;
       gap: 10px;
       padding: 0 20px;
+      flex-wrap: wrap;
     }
     .filter-btn {
       background: #e0e0e0;
@@ -147,10 +218,25 @@
       border-radius: 20px;
       cursor: pointer;
       transition: background 0.3s ease;
+      font-size: 0.9rem;
     }
-    .filter-btn.active, .filter-btn:hover {
+    .filter-btn.active,
+    .filter-btn:hover {
       background: #ff6b6b;
       color: #fff;
+    }
+
+    /* ---------- Featured Products Section ---------- */
+    .featured-section {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+    .featured-section h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: #333;
     }
 
     /* ---------- Products Grid ---------- */
@@ -158,7 +244,7 @@
       max-width: 1200px;
       margin: 20px auto;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 20px;
       padding: 0 20px;
     }
@@ -175,18 +261,36 @@
     .product-card:hover {
       transform: translateY(-5px);
     }
-    .product-card img {
-      width: 80%;
+    .product-image {
+      width: 100%;
       height: 200px;
+      overflow: hidden;
+    }
+    .product-image img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
     }
     .product-details {
       padding: 15px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     .product-details h3 {
       font-size: 1.2rem;
       margin-bottom: 5px;
       color: #333;
+    }
+    .product-description {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 10px;
+      flex: 1;
     }
     .vendor-rating {
       display: flex;
@@ -211,21 +315,35 @@
       color: #27ae60;
       margin-bottom: 10px;
     }
-    .add-to-cart {
-      background: #3498db;
-      color: #fff;
+    .card-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .add-to-cart,
+    .quick-view {
+      flex: 1;
       border: none;
       padding: 10px;
-      width: 100%;
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s ease;
       font-size: 0.95rem;
     }
+    .add-to-cart {
+      background: #3498db;
+      color: #fff;
+    }
     .add-to-cart:hover {
       background: #2980b9;
     }
-    /* "View More" Button */
+    .quick-view {
+      background: #ff6b6b;
+      color: #fff;
+    }
+    .quick-view:hover {
+      background: #ff4c4c;
+    }
     .view-more {
       display: block;
       width: 200px;
@@ -242,6 +360,26 @@
     }
     .view-more:hover {
       background: #ff4c4c;
+    }
+
+    /* ---------- New About Us Section ---------- */
+    .about-section {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      text-align: center;
+    }
+    .about-section h2 {
+      margin-bottom: 20px;
+      font-size: 2rem;
+      color: #333;
+    }
+    .about-section p {
+      font-size: 1rem;
+      color: #555;
     }
 
     /* ---------- Footer ---------- */
@@ -265,7 +403,8 @@
     footer h3 {
       margin-bottom: 15px;
     }
-    footer p, footer a {
+    footer p,
+    footer a {
       font-size: 0.9rem;
       color: #ccc;
     }
@@ -281,6 +420,27 @@
     footer .social-icons a:hover {
       color: #ff4c4c;
     }
+    footer .newsletter {
+      margin-top: 20px;
+    }
+    footer .newsletter input {
+      padding: 8px;
+      border: none;
+      border-radius: 20px;
+      margin-right: 10px;
+    }
+    footer .newsletter button {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 20px;
+      background: #ff6b6b;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    footer .newsletter button:hover {
+      background: #ff4c4c;
+    }
 
     /* ---------- Success Message ---------- */
     .success-message {
@@ -288,7 +448,7 @@
       bottom: 20px;
       right: 20px;
       background: #27ae60;
-      color: white;
+      color: #fff;
       padding: 15px 25px;
       border-radius: 5px;
       display: none;
@@ -300,26 +460,14 @@
       to { transform: translateX(0); }
     }
 
-    /* ---------- Responsive Adjustments ---------- */
-    @media (max-width: 768px) {
-      .header-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      nav ul {
-        justify-content: center;
-        width: 100%;
-      }
-    }
-    
-    /* ---------- Loading Screen Styles ---------- */
+    /* ---------- Loading Screen ---------- */
     #loading-screen {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #f4f4f4; /* matches body background */
+      background: #f4f4f4;
       z-index: 9999;
       display: flex;
       flex-direction: column;
@@ -329,7 +477,7 @@
     }
     .loader {
       border: 12px solid #f3f3f3;
-      border-top: 12px solid hsla(288, 37%, 29%, 1); /* matching header color */
+      border-top: 12px solid #2575fc;
       border-radius: 50%;
       width: 80px;
       height: 80px;
@@ -344,6 +492,82 @@
       font-size: 1.2rem;
       color: #333;
     }
+
+    /* ---------- Modal Quick View ---------- */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background: rgba(0,0,0,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      width: 90%;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    /* ---------- Back to Top Button ---------- */
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #3498db;
+      color: #fff;
+      padding: 10px 15px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      z-index: 1500;
+      transition: background 0.3s ease;
+    }
+    #back-to-top:hover {
+      background: #2980b9;
+    }
+
+    /* ---------- Responsive Adjustments ---------- */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 5px 10px;
+      }
+      .header-container h1 {
+        font-size: 1.5rem;
+      }
+      .search-container {
+        width: 90%;
+        margin: 5px 0;
+      }
+      nav ul {
+        justify-content: center;
+        width: 100%;
+      }
+      .product-image {
+        height: 180px;
+      }
+      .slider-section {
+        height: 200px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -352,23 +576,37 @@
     <div class="loader"></div>
     <p>Loading...</p>
   </div>
-  
-  <!-- ---------- Header ---------- -->
-  <header class="fancy-header">
+
+  <!-- ---------- Updated Header ---------- -->
+  <header class="header">
     <div class="header-container">
-      <h1>MarketMingle.com</h1>
+      <h1>MarketMingle</h1>
+      <div class="search-container">
+        <input type="text" placeholder="Search products..." />
+      </div>
       <nav>
         <ul>
-          <li><a href="index.html">Home</a></li>
+          <li>
+            <a href="index.html">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+            </a>
+          </li>
           <li>
             <a href="cart.html">
+              <i class="fas fa-shopping-cart"></i>
+              <span>Cart</span>
               <span class="cart-icon">
-                <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">0</span>
               </span>
             </a>
           </li>
-          <li><a href="tracking.html">Track Orders</a></li>
+          <li>
+            <a href="tracking.html">
+              <i class="fas fa-truck"></i>
+              <span>Track Orders</span>
+            </a>
+          </li>
         </ul>
       </nav>
     </div>
@@ -382,6 +620,19 @@
     </div>
   </section>
 
+  <!-- ---------- New Slider Section ---------- -->
+  <section class="slider-section">
+    <div class="slider-container" id="slider">
+      <div class="slide" style="background-image: url('https://i.ibb.co/F4FMTTvB/78a10147bf7fed30e9b8e61f0f845948.jpg');"></div>
+      <div class="slide" style="background-image: url('https://i.ibb.co/0SrSZRr/04aa81d9da68678a6831f88db94d7b73.jpg');" ></div>
+      <div class="slide" style="background-image: url('https://i.ibb.co/JwhwQCMY/32fce86a449d73e9afdd618ac6e1d9ea.jpg');"></div>
+    </div>
+    <div class="slider-nav">
+      <button id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+      <button id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+    </div>
+  </section>
+
   <!-- ---------- Category Filters ---------- -->
   <section class="category-filters" id="category-filters">
     <div class="filter-buttons">
@@ -392,146 +643,231 @@
       <button class="filter-btn" data-category="beauty">Beauty</button>
     </div>
   </section>
-  <br>
-  
-  <div class="picks">
-    <h2>Top Picks</h2>
-  </div>
 
-  <!-- ---------- Products Grid ---------- -->
+  <!-- ---------- Featured Products Section ---------- -->
+  <section class="featured-section">
+    <h2>Top Picks</h2>
+  </section>
+
+  <!-- ---------- Products Grid (All Original Products) ---------- -->
   <section class="products-grid" id="products-grid">
-    <!-- Example Products (You can add as many as you like) -->
-    <!-- Electronics Product -->
-    <div class="product-card" data-category="electronics" data-product-id="101">
-      <img src="images/smartphone.jpg" alt="Smartphone X">
+    <!-- Product 101: Acer Laptop -->
+    <div class="product-card" data-category="office" data-product-id="101">
+      <div class="product-image">
+        <img src="https://i.ibb.co/9kmHBBnT/7dc68e058388f34df190935050fd354b.jpg" alt="Acer Laptop" />
+      </div>
       <div class="product-details">
-        <h3>Samsung Galaxy S24 Ultra</h3>
+        <h3>Acer Laptop</h3>
+        <p class="product-description">
+          A sleek and powerful laptop perfect for work and play, featuring high performance and stunning visuals.
+        </p>
         <div class="vendor-rating">
-          <span class="vendor">TechWorld</span>
-          <div class="rating">
-            ★★★★☆ <span class="reviews">(123 reviews)</span>
-          </div>
+          <span class="vendor">OfficeTech</span>
+          <div class="rating">★★★★☆ <span class="reviews">(123 reviews)</span></div>
         </div>
-        <p class="price">$599.99</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$216.00</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="101">Quick View</button>
+        </div>
       </div>
     </div>
-    <!-- Beauty Product -->
+
+    <!-- Product 102: Nivea Men Moisturizer -->
     <div class="product-card" data-category="beauty" data-product-id="102">
-      <img src="images/nivea.jpg" alt="Nivea Men">
+      <div class="product-image">
+        <img src="https://i.ibb.co/QjnxG8mb/a29ce79133689660c74bd98b5d6094de.jpg" alt="Nivea Men Moisturizer" />
+      </div>
       <div class="product-details">
         <h3>Nivea Men Moisturizer</h3>
+        <p class="product-description">
+          A hydrating formula that nourishes your skin, leaving it smooth and refreshed all day long.
+        </p>
         <div class="vendor-rating">
           <span class="vendor">Beautyglow</span>
-          <div class="rating">
-            ★★★★☆ <span class="reviews">(78 reviews)</span>
-          </div>
+          <div class="rating">★★★★☆ <span class="reviews">(266 reviews)</span></div>
         </div>
-        <p class="price">$299.99</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$60.99</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="102">Quick View</button>
+        </div>
       </div>
     </div>
-    <!-- Clothing Product -->
+
+    <!-- Product 103: Designer Dress -->
     <div class="product-card" data-category="clothing" data-product-id="103">
-      <img src="images/dress.jpg" alt="Designer Dress">
+      <div class="product-image">
+        <img src="https://i.ibb.co/QFPvmRTb/89e1fce79494a36fec5ede0b7f0ed415.jpg" alt="Designer Dress" />
+      </div>
       <div class="product-details">
         <h3>Designer Dress</h3>
+        <p class="product-description">
+          Elegant and chic, this dress is perfect for special occasions and stylish events.
+        </p>
         <div class="vendor-rating">
           <span class="vendor">FashionHub</span>
-          <div class="rating">
-            ★★★☆☆ <span class="reviews">(78 reviews)</span>
-          </div>
+          <div class="rating">★★★☆☆ <span class="reviews">(78 reviews)</span></div>
         </div>
-        <p class="price">$89.99</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$92.00</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="103">Quick View</button>
+        </div>
       </div>
     </div>
-    <!-- Remote Office Setup Product -->
-    <div class="product-card" data-category="office" data-product-id="104">
-      <img src="images/laptop.jpg" alt="Laptop Pro">
+
+    <!-- Product 104: Apple Airpod Pro -->
+    <div class="product-card" data-category="electronics" data-product-id="104">
+      <div class="product-image">
+        <img src="https://i.ibb.co/Vcgg7KHK/146da0c2a57cc61e3c4ad2377b42c70e.jpg" alt="Apple Airpod Pro" />
+      </div>
       <div class="product-details">
-        <h3>Laptop Pro 15"</h3>
+        <h3>Apple Airpod Pro</h3>
+        <p class="product-description">
+          Experience immersive sound quality with active noise cancellation in these premium wireless earbuds.
+        </p>
         <div class="vendor-rating">
-          <span class="vendor">OfficeTech</span>
-          <div class="rating">
-            ★★★★★ <span class="reviews">(200 reviews)</span>
-          </div>
+          <span class="vendor">TechCorp</span>
+          <div class="rating">★★★★★ <span class="reviews">(254 reviews)</span></div>
         </div>
-        <p class="price">$1,299.99</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$71.00</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="104">Quick View</button>
+        </div>
       </div>
     </div>
-    <!-- Additional Products -->
+
+    <!-- Product 105: 4G Network Smartwatch -->
     <div class="product-card" data-category="electronics" data-product-id="105">
-      <img src="images/headphones.jpg" alt="Wireless Headphones">
+      <div class="product-image">
+        <img src="https://i.ibb.co/RpDW3fGw/2bb66f6d72aa80d1f64ec2d68a5dd49d.jpg" alt="4G Network Smartwatch" />
+      </div>
       <div class="product-details">
-        <h3>Wireless Headphones</h3>
+        <h3>4G Network Smartwatch</h3>
+        <p class="product-description">
+          Stay connected on the go with this smart wearable, combining style and functionality.
+        </p>
         <div class="vendor-rating">
           <span class="vendor">SoundMax</span>
-          <div class="rating">
-            ★★★★☆ <span class="reviews">(150 reviews)</span>
-          </div>
+          <div class="rating">★★★★☆ <span class="reviews">(150 reviews)</span></div>
         </div>
-        <p class="price">$199.99</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$120.59</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="105">Quick View</button>
+        </div>
       </div>
     </div>
+
+    <!-- Product 106: Sneakers Men -->
     <div class="product-card" data-category="clothing" data-product-id="106">
-      <img src="images/shoes.jpg" alt="Running Shoes">
+      <div class="product-image">
+        <img src="https://i.ibb.co/dsm2CT5L/6670b3d072728e7e5c845b9b4480e4ce.jpg" alt="Sneakers Men" />
+      </div>
       <div class="product-details">
-        <h3>Running Shoes</h3>
+        <h3>Sneakers Men</h3>
+        <p class="product-description">
+          Comfortable and stylish sneakers designed for everyday wear and athletic performance.
+        </p>
         <div class="vendor-rating">
           <span class="vendor">Sportify</span>
-          <div class="rating">
-            ★★★☆☆ <span class="reviews">(95 reviews)</span>
-          </div>
+          <div class="rating">★★★☆☆ <span class="reviews">(95 reviews)</span></div>
         </div>
-        <p class="price">$129.99</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$240.00</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="106">Quick View</button>
+        </div>
       </div>
     </div>
+
+    <!-- Product 107: Dior Body Spray -->
     <div class="product-card" data-category="beauty" data-product-id="107">
-      <img src="images/perfume.jpg" alt="Luxury Perfume">
+      <div class="product-image">
+        <img src="https://i.ibb.co/pr1XK0dJ/16dcd0c03662a57993baa9b30e8a9fb3.jpg" alt="Dior Body Spray" />
+      </div>
       <div class="product-details">
-        <h3>Luxury Perfume</h3>
+        <h3>Dior Body Spray</h3>
+        <p class="product-description">
+          A refreshing scent that captivates, perfect for those who appreciate luxury and elegance.
+        </p>
         <div class="vendor-rating">
           <span class="vendor">Scentify</span>
-          <div class="rating">
-            ★★★★☆ <span class="reviews">(60 reviews)</span>
-          </div>
+          <div class="rating">★★★★☆ <span class="reviews">(60 reviews)</span></div>
         </div>
-        <p class="price">$79.99</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$80.99</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="107">Quick View</button>
+        </div>
       </div>
     </div>
-    <!-- Duplicate Product Example -->
-    <div class="product-card" data-category="electronics" data-product-id="101">
-      <img src="images/smartphone.jpg" alt="Smartphone X">
+
+    <!-- Product 108: Samsung Galaxy S24 Ultra -->
+    <div class="product-card" data-category="electronics" data-product-id="108">
+      <div class="product-image">
+        <img src="https://i.ibb.co/PZ99S1YQ/44dbf3252affe1b050eef4b7ea01c988.jpg" alt="Samsung Galaxy S24 Ultra" />
+      </div>
       <div class="product-details">
         <h3>Samsung Galaxy S24 Ultra</h3>
+        <p class="product-description">
+          Discover cutting-edge technology with this flagship smartphone that offers unparalleled performance and stunning visuals.
+        </p>
         <div class="vendor-rating">
           <span class="vendor">TechWorld</span>
-          <div class="rating">
-            ★★★★☆ <span class="reviews">(123 reviews)</span>
-          </div>
+          <div class="rating">★★★★☆ <span class="reviews">(123 reviews)</span></div>
         </div>
-        <p class="price">$599.99</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$210.88</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="108">Quick View</button>
+        </div>
       </div>
     </div>
-    <!-- Remote Office Setup (MacBook Air) -->
-    <div class="product-card" data-category="office" data-product-id="101">
-      <img src="images/macbook.jpg" alt="MacBook Air">
+
+    <!-- Product 109: MacBook Air -->
+    <div class="product-card" data-category="office" data-product-id="109">
+      <div class="product-image">
+        <img src="https://i.ibb.co/5XCNVbv8/ebb35d9572ffff815578498fcf59cbbb.jpg" alt="MacBook Air" />
+      </div>
       <div class="product-details">
         <h3>MacBook Air</h3>
+        <p class="product-description">
+          Lightweight and powerful, the MacBook Air is perfect for remote work and productivity on the go.
+        </p>
         <div class="vendor-rating">
           <span class="vendor">OfficeTech</span>
-          <div class="rating">
-            ★★★★☆ <span class="reviews">(673 reviews)</span>
-          </div>
+          <div class="rating">★★★★☆ <span class="reviews">(673 reviews)</span></div>
         </div>
-        <p class="price">$1420.69</p>
-        <button class="add-to-cart">Add to Cart</button>
+        <p class="price">$440.69</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="109">Quick View</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product 110: Microphone Headset -->
+    <div class="product-card" data-category="office" data-product-id="110">
+      <div class="product-image">
+        <img src="https://i.ibb.co/qFNWDScL/446bbdd933a09fea9b22e3325ce0dd5c.jpg" alt="Microphone Headset" />
+      </div>
+      <div class="product-details">
+        <h3>Microphone Headset</h3>
+        <p class="product-description">
+          Enhance your remote meetings with clear audio and a comfortable design, perfect for professionals.
+        </p>
+        <div class="vendor-rating">
+          <span class="vendor">OfficeTech</span>
+          <div class="rating">★★★★☆ <span class="reviews">(97 reviews)</span></div>
+        </div>
+        <p class="price">$70.89</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="110">Quick View</button>
+        </div>
       </div>
     </div>
   </section>
@@ -540,6 +876,28 @@
   <div class="view-more">
     <a href="products.html" style="color: inherit;">View More Products</a>
   </div>
+
+  <!-- ---------- New About Us Section ---------- -->
+  <section class="about-section">
+    <h2>About MarketMingle</h2>
+    <p>
+      At MarketMingle, we are committed to offering the best products from top brands at unbeatable prices.
+      Explore our wide range of products and experience a seamless shopping journey.
+    </p>
+  </section>
+
+  <!-- ---------- Modal Quick View ---------- -->
+  <div id="quickViewModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close">&times;</span>
+      <div id="modalProductContent">
+        <!-- Dynamic content will be injected here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ---------- Back to Top Button ---------- -->
+  <div id="back-to-top"><i class="fas fa-chevron-up"></i></div>
 
   <!-- ---------- Footer ---------- -->
   <footer class="classy-footer">
@@ -565,6 +923,12 @@
           <a href="#"><i class="fab fa-twitter-square"></i></a>
         </div>
       </div>
+      <div class="footer-section newsletter">
+        <h3>Newsletter</h3>
+        <p>Sign up for exclusive deals and updates:</p>
+        <input type="email" placeholder="Enter your email" />
+        <button>Subscribe</button>
+      </div>
     </div>
     <p style="margin-top: 20px;">&copy; 2025 MarketMingle. All Rights Reserved.</p>
   </footer>
@@ -574,13 +938,11 @@
 
   <!-- ---------- JavaScript ---------- -->
   <script>
-    // ---------- Remove Loading Screen Once Page is Loaded ----------
+    // ---------- Remove Loading Screen ----------
     window.addEventListener('load', function() {
       const loadingScreen = document.getElementById('loading-screen');
       loadingScreen.style.opacity = '0';
-      setTimeout(() => {
-        loadingScreen.style.display = 'none';
-      }, 500);
+      setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
     });
 
     // ---------- Cart Functionality ----------
@@ -592,14 +954,13 @@
     function showSuccessMessage() {
       const success = document.getElementById('success-message');
       success.style.display = 'block';
-      setTimeout(() => success.style.display = 'none', 2000);
+      setTimeout(() => { success.style.display = 'none'; }, 2000);
     }
-    // Use event delegation on the products grid to handle "Add to Cart" clicks.
     document.getElementById('products-grid').addEventListener('click', function(e) {
       if (e.target && e.target.matches('button.add-to-cart')) {
         const productCard = e.target.closest('.product-card');
         const product = {
-          id: Date.now(), // Unique cart item ID
+          id: Date.now(),
           productId: productCard.dataset.productId,
           name: productCard.querySelector('h3').textContent,
           price: parseFloat(productCard.querySelector('.price').textContent.replace('$', '')),
@@ -619,14 +980,12 @@
     // ---------- Category Filtering ----------
     document.querySelectorAll('.filter-btn').forEach(button => {
       button.addEventListener('click', () => {
-        // Remove active class from all buttons
         document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        // Add active class to clicked button
         button.classList.add('active');
         const category = button.dataset.category;
         document.querySelectorAll('.product-card').forEach(product => {
           if (category === 'all' || product.dataset.category === category) {
-            product.style.display = 'block';
+            product.style.display = 'flex';
           } else {
             product.style.display = 'none';
           }
@@ -634,40 +993,92 @@
       });
     });
 
-    // ---------- Hide Category Filters on Scroll ----------
+    // ---------- Hide Category Filters on Scroll & Back to Top Button ----------
     const categoryFilters = document.getElementById('category-filters');
     let lastScrollTop = 0;
     window.addEventListener('scroll', () => {
       let st = window.pageYOffset || document.documentElement.scrollTop;
       if (st > lastScrollTop) {
-        // Scrolling down: hide the filters
         categoryFilters.style.top = "-70px";
       } else {
-        // Scrolling up: show the filters
         categoryFilters.style.top = "0";
       }
       lastScrollTop = st <= 0 ? 0 : st;
+      const backToTop = document.getElementById('back-to-top');
+      if (st > 300) { backToTop.style.display = 'block'; }
+      else { backToTop.style.display = 'none'; }
     });
+    document.getElementById('back-to-top').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // ---------- Modal Quick View Functionality ----------
+    const quickViewButtons = document.querySelectorAll('.quick-view');
+    const modal = document.getElementById('quickViewModal');
+    const modalContent = document.getElementById('modalProductContent');
+    const modalClose = document.querySelector('.modal-close');
+    quickViewButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const productCard = button.closest('.product-card');
+        const productName = productCard.querySelector('h3').textContent;
+        const productImage = productCard.querySelector('img').src;
+        const productDescription = productCard.querySelector('.product-description').textContent;
+        const productPrice = productCard.querySelector('.price').textContent;
+        const vendor = productCard.querySelector('.vendor').textContent;
+        modalContent.innerHTML = `
+          <div style="display:flex; flex-wrap: wrap;">
+            <div style="flex:1; min-width: 200px; padding: 10px;">
+              <img src="${productImage}" alt="${productName}" style="width: 100%; border-radius: 5px;">
+            </div>
+            <div style="flex:1; min-width: 200px; padding: 10px;">
+              <h2>${productName}</h2>
+              <p>${productDescription}</p>
+              <p style="font-size:1.2rem; color:#27ae60;">Price: ${productPrice}</p>
+              <p style="color:#555;">Vendor: ${vendor}</p>
+              <button class="add-to-cart" style="background:#3498db; color:#fff; padding:10px; border:none; border-radius:5px; cursor:pointer;">Add to Cart</button>
+            </div>
+          </div>
+        `;
+        modal.style.display = 'flex';
+      });
+    });
+    modalClose.addEventListener('click', () => { modal.style.display = 'none'; });
+    window.addEventListener('click', (e) => { if (e.target === modal) { modal.style.display = 'none'; }});
+
+    // ---------- Slider Functionality ----------
+    const slider = document.getElementById('slider');
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentSlide = 0;
+    document.getElementById('nextSlide').addEventListener('click', () => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlider();
+    });
+    document.getElementById('prevSlide').addEventListener('click', () => {
+      currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+      updateSlider();
+    });
+    function updateSlider() {
+      slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % totalSlides;
+      updateSlider();
+    }, 4000);
   </script>
 
   <!-- ---------- Pop-up Ad (Optional) ---------- -->
   <div id="popup-ad" class="popup-ad">
     <div class="popup-content">
       <span class="close-popup" onclick="closePopup()">&times;</span>
-      <h2>🎉 Special Offer! 🎉</h2>
+      <h2>Special Offer!</h2>
       <p>Get <strong>10% OFF</strong> your first purchase!</p>
       <a class="claim" href="coupon.html" id="claim-discount">Claim Coupon</a>
     </div>
   </div>
   <script>
-    // Show pop-up after 5 seconds
-    setTimeout(() => {
-      document.getElementById('popup-ad').style.display = 'flex';
-    }, 5000);
-    // Close pop-up
-    function closePopup() {
-      document.getElementById('popup-ad').style.display = 'none';
-    }
+    setTimeout(() => { document.getElementById('popup-ad').style.display = 'flex'; }, 5000);
+    function closePopup() { document.getElementById('popup-ad').style.display = 'none'; }
   </script>
 
   <!-- ---------- Pop-up Ad Styles ---------- -->

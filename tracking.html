@@ -5,9 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order Tracking - E-Collective</title>
   <link rel="stylesheet" href="styles.css">
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <!-- Leaflet CSS for Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" 
+        integrity="sha512-xodZBntM13P9v9LFH6gKfJ4l0IFMx3/QK+MYI1kD6g8G7oV0PmbPH1lZl8E6sEzG0bg7K4dK9z0XU5Jt6Y4Ww==" 
+        crossorigin=""/>
   <style>
-    /* Example styles; your existing styles should remain intact */
+    /* Base Styles */
     body {
       font-family: Arial, sans-serif;
       background: #f4f4f4;
@@ -20,7 +25,7 @@
       color: #fff;
       text-align: center;
     }
-    .tracking-main {
+    main.tracking-main {
       max-width: 800px;
       margin: 20px auto;
       background: #fff;
@@ -73,11 +78,107 @@
       text-align: center;
       font-size: 1rem;
     }
+    /* Advanced Tracking Details Section */
+    .tracking-details {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .detail-card {
+      background: #f9f9f9;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    .detail-card h3 {
+      margin-top: 0;
+      color: #1B8A54;
+    }
+    .detail-card p {
+      margin: 5px 0;
+      color: #555;
+    }
+    .detail-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .detail-card ul li {
+      margin: 5px 0;
+      padding-left: 20px;
+      position: relative;
+    }
+    .detail-card ul li::before {
+      content: "\2022";
+      position: absolute;
+      left: 0;
+      color: #1B8A54;
+    }
+    @media (min-width: 600px) {
+      .tracking-details {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    /* Map Container using Leaflet */
+    .map-container {
+      margin-top: 20px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    #map {
+      width: 100%;
+      height: 300px;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .tracking-main {
+        margin: 10px;
+        padding: 15px;
+      }
+      .tracking-form input[type="text"] {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+      .tracking-form button {
+        width: 100%;
+      }
+      .tracking-details {
+        grid-template-columns: 1fr;
+      }
+      .progress-bar {
+        flex-direction: column;
+        align-items: center;
+      }
+      .progress-step {
+        margin: 5px 0;
+      }
+    }
+    @media (max-width: 480px) {
+      header.fancy-header {
+        padding: 10px;
+        font-size: 0.9rem;
+      }
+      .tracking-container h2 {
+        font-size: 1.5rem;
+      }
+      .status-text {
+        font-size: 0.9rem;
+      }
+      .detail-card h3 {
+        font-size: 1.1rem;
+      }
+      .detail-card p, .detail-card ul li {
+        font-size: 0.85rem;
+      }
+    }
   </style>
 </head>
 <body>
   <header class="fancy-header">
-    <!-- Same header as other pages -->
     <h1>MarketMingle</h1>
   </header>
 
@@ -98,26 +199,79 @@
         </div>
         <div class="status-text" id="status-text"></div>
       </div>
+
+      <!-- Advanced Tracking Details Section -->
+      <div class="tracking-details" id="tracking-details">
+        <!-- Additional details will be populated here -->
+      </div>
+
+      <!-- Map Section using Leaflet -->
+      <div class="map-container" id="map-container" style="display:none;">
+        <div id="map"></div>
+      </div>
     </div>
   </main>
 
-  <footer class="footer">
-    <!-- Same footer as other pages -->
-    <p style="text-align: center;">&copy; 2025 MarketMingle. All Rights Reserved.</p>
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2025 MarketMingle. All rights reserved.</p>
+    </div>
   </footer>
 
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" 
+          integrity="sha512-1w96rRH+AA/mCJIF3cZoM9H1Wq4fTA7OWX4T7ZhTnZFLWf+9TQx9qG/yQdh2smtos/gJ3m4Z5DrQW00a4vJ7Ug==" 
+          crossorigin=""></script>
   <script>
-    // Retrieve orders from localStorage (assumes each order object has properties:
-    // id, status, updated, deliveryDate, and location)
+    // Global map variables
+    let map, marker;
+    
+    // Initialize Leaflet map with a default view
+    function initMap(lat = 37.785834, lng = -122.406417) {
+      if (!map) {
+        map = L.map('map').setView([lat, lng], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+        marker = L.marker([lat, lng]).addTo(map);
+      } else {
+        map.setView([lat, lng], 13);
+        marker.setLatLng([lat, lng]);
+      }
+    }
+    
+    // Geocode an address using Nominatim (free)
+    function geocodeAddress(address) {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
+      return fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          if (data && data.length > 0) {
+            return {
+              lat: parseFloat(data[0].lat),
+              lng: parseFloat(data[0].lon)
+            };
+          } else {
+            throw new Error("Address not found");
+          }
+        });
+    }
+    
+    // Retrieve orders from localStorage.
+    // Each order should include:
+    // id, status, updated, deliveryDate, date, location, currentLocation, destination, customerName
     const orders = JSON.parse(localStorage.getItem('orders')) || [];
     
     function trackOrder() {
       const orderId = document.getElementById('order-id').value;
       const order = orders.find(o => o.id === orderId);
       const statusText = document.getElementById('status-text');
+      const trackingDetails = document.getElementById('tracking-details');
+      const mapContainer = document.getElementById('map-container');
       
-      if(order) {
+      if (order) {
         updateProgress(order.status);
+        // Basic order info
         statusText.innerHTML = `
           <h3>Order #${order.id}</h3>
           <p>Current Status: ${order.status}</p>
@@ -125,24 +279,80 @@
           <p>Delivery Date: ${order.deliveryDate ? new Date(order.deliveryDate).toLocaleDateString() : 'TBA'}</p>
           <p>Delivery Location: ${order.location || 'Not Available'}</p>
         `;
+        
+        // Build tracking history based on current status.
+        let historyHtml = `<li>Order Placed on ${new Date(order.date).toLocaleString()}</li>`;
+        if (['processed', 'shipped', 'delivered'].includes(order.status)) {
+          historyHtml += `<li>Processed on ${new Date(order.updated).toLocaleString()}</li>`;
+        }
+        if (['shipped', 'delivered'].includes(order.status)) {
+          historyHtml += `<li>Shipped on ${new Date(order.updated).toLocaleString()}</li>`;
+        }
+        if (order.status === 'delivered') {
+          historyHtml += `<li>Delivered on ${new Date(order.deliveryDate).toLocaleString()}</li>`;
+        }
+        
+        trackingDetails.innerHTML = `
+          <div class="detail-card">
+            <h3>Order Summary</h3>
+            <p><strong>Order ID:</strong> ${order.id}</p>
+            <p><strong>Status:</strong> ${order.status}</p>
+            <p><strong>Last Updated:</strong> ${new Date(order.updated).toLocaleString()}</p>
+          </div>
+          <div class="detail-card">
+            <h3>Delivery Information</h3>
+            <p><strong>Customer Name:</strong> ${order.customerName || "N/A"}</p>
+            <p><strong>Shipping Carrier:</strong> ${order.shippingCarrier || "FedEx"}</p>
+            <p><strong>Current Location:</strong> ${order.currentLocation || "Distribution Center, City, Country"}</p>
+            <p><strong>Destination:</strong> ${order.destination || order.location || "Customer Address"}</p>
+            <p><strong>Estimated Arrival:</strong> ${order.deliveryDate ? new Date(order.deliveryDate).toLocaleDateString() : "TBA"}</p>
+          </div>
+          <div class="detail-card">
+            <h3>Tracking History</h3>
+            <ul>
+              ${historyHtml}
+            </ul>
+          </div>
+        `;
+        
+        // Update map to show the destination (if available)
+        const destinationQuery = order.destination || order.location;
+        if (destinationQuery) {
+          geocodeAddress(destinationQuery)
+            .then(coords => {
+              initMap(coords.lat, coords.lng);
+              mapContainer.style.display = 'block';
+            })
+            .catch(error => {
+              console.error(error);
+              mapContainer.style.display = 'none';
+            });
+        } else {
+          mapContainer.style.display = 'none';
+        }
       } else {
         statusText.innerHTML = "<p>Order not found. Please check your Order ID</p>";
+        trackingDetails.innerHTML = "";
+        mapContainer.style.display = 'none';
       }
     }
-
+    
     function updateProgress(status) {
       const steps = document.querySelectorAll('.progress-step');
       const statusOrder = ['ordered', 'processed', 'shipped', 'delivered'];
       const currentIndex = statusOrder.indexOf(status);
       
       steps.forEach((step, index) => {
-        if(index <= currentIndex) {
+        if (index <= currentIndex) {
           step.classList.add('active');
         } else {
           step.classList.remove('active');
         }
       });
     }
+    
+    // Initialize the map with a default view
+    initMap();
   </script>
 </body>
 </html>

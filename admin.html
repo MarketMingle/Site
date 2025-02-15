@@ -78,18 +78,16 @@
     .order-info span, .order-info p {
       margin: 2px 0;
     }
-    .order-info label {
-      font-size: 0.9rem;
-      display: inline-block;
-      width: 110px;
+    .order-info p {
+      line-height: 1.4;
     }
-    .order-info input,
-    .order-info select {
-      padding: 5px;
-      margin-top: 2px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-      font-size: 0.9rem;
+    /* Updated labels for customer details */
+    .order-info .label {
+      font-weight: bold;
+    }
+    /* Home address input styling remains */
+    .order-info .home-address {
+      width: calc(100% - 150px);
     }
     .update-order {
       margin-top: 10px;
@@ -167,10 +165,17 @@
       </div>
     </div>
   </main>
-
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-bottom">
+      <p>&copy; 2025 MarketMingle. All rights reserved.</p>
+    </div>
+  </footer>
+  
   <script>
     // Retrieve orders from localStorage (ensure each order object includes:
-    // id, customerName, date, status, updated, deliveryDate, and location)
+    // id, customerName, homeAddress, date, status, updated, deliveryDate, and location)
     const orders = JSON.parse(localStorage.getItem('orders')) || [];
     
     const ADMIN_CREDENTIALS = { username: "admin", password: "preshh4l" };
@@ -198,11 +203,12 @@
       ordersList.innerHTML = orders.map(order => `
         <div class="order-item">
           <div class="order-info">
-            <span><strong>Order #${order.id}</strong></span>
-            <span>Customer: ${order.customerName || 'N/A'}</span>
-            <span>Order Date: ${new Date(order.date).toLocaleDateString()}</span>
+            <p><span class="label">Order #:</span> ${order.id}</p>
+            <p><span class="label">Customer Name:</span> ${order.customerName || 'N/A'}</p>
+            <p><span class="label">Home Address:</span> ${order.homeAddress || 'N/A'}</p>
+            <p><span class="label">Order Date:</span> ${new Date(order.date).toLocaleDateString()}</p>
             <div>
-              <label>Status:</label>
+              <label class="label">Status:</label>
               <select class="status-select" data-id="${order.id}">
                 <option ${order.status === 'ordered' ? 'selected' : ''}>ordered</option>
                 <option ${order.status === 'processed' ? 'selected' : ''}>processed</option>
@@ -211,11 +217,11 @@
               </select>
             </div>
             <div>
-              <label>Delivery Date:</label>
+              <label class="label">Delivery Date:</label>
               <input type="date" class="delivery-date" data-id="${order.id}" value="${order.deliveryDate ? new Date(order.deliveryDate).toISOString().substring(0,10) : ''}">
             </div>
             <div>
-              <label>Location:</label>
+              <label class="label">Tracking Location:</label>
               <input type="text" class="delivery-location" data-id="${order.id}" value="${order.location || ''}">
             </div>
           </div>
@@ -238,9 +244,13 @@
         const newStatus = document.querySelector(`.status-select[data-id="${orderId}"]`).value;
         const newDeliveryDate = document.querySelector(`.delivery-date[data-id="${orderId}"]`).value;
         const newLocation = document.querySelector(`.delivery-location[data-id="${orderId}"]`).value;
+        // For customer name and home address, we assume these were entered at checkout.
+        // They might be updated here if necessary.
+        const newHomeAddress = document.querySelector(`.home-address[data-id="${orderId}"]`)?.value || order.homeAddress;
         order.status = newStatus;
         order.deliveryDate = newDeliveryDate;
         order.location = newLocation;
+        order.homeAddress = newHomeAddress;
         order.updated = new Date().toISOString();
         localStorage.setItem('orders', JSON.stringify(orders));
         alert("Order updated successfully.");
