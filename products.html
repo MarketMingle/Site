@@ -48,18 +48,7 @@
       color: #fff;
       margin: 0;
     }
-    .search-container {
-      flex: 1;
-      margin: 0 10px;
-      max-width: 400px;
-    }
-    .search-container input {
-      width: 100%;
-      padding: 5px 10px;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      font-size: 0.9rem;
-    }
+    
     nav ul {
       display: flex;
       gap: 15px;
@@ -120,7 +109,7 @@
     /* ---------- Hero Section ---------- */
     .hero {
       background: url('https://i.ibb.co/20ZpF1bC/4466c7d546754e18897dd3deb9e1b7a9.jpg') no-repeat center center/cover;
-      height: 300px;
+      height: 400px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -173,7 +162,7 @@
     }
     .product-image {
       width: 100%;
-      height: 200px;
+      height: 200px; /* Changed from 200px to 250px */
       overflow: hidden;
     }
     .product-image img {
@@ -296,7 +285,7 @@
       border: none;
       border-radius: 20px;
       background: #ff6b6b;
-      color: #fff;
+       color: #fff;
       cursor: pointer;
       transition: background 0.3s ease;
     }
@@ -309,8 +298,8 @@
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background: #27ae60;
-      color: #fff;
+      background: #27AE60;
+      color: #831C1C;
       padding: 15px 25px;
       border-radius: 5px;
       display: none;
@@ -386,6 +375,9 @@
       cursor: pointer;
       color: #333;
     }
+      .claim {
+    color: rgba(238, 34, 34, 1);
+  }
     
     /* ---------- Back to Top Button ---------- */
     #back-to-top {
@@ -415,10 +407,7 @@
       .header-container h1 {
         font-size: 1.5rem;
       }
-      .search-container {
-        width: 90%;
-        margin: 5px 0;
-      }
+     
       nav ul {
         justify-content: center;
         width: 100%;
@@ -436,13 +425,15 @@
     <p>Loading...</p>
   </div>
   
-  <!-- ---------- Header (Reuse from Index) ---------- -->
+   <!-- ---------- Updated Header ---------- -->
   <header class="header">
     <div class="header-container">
-      <h1>MarketMingle</h1>
-      <div class="search-container">
-        <input type="text" placeholder="Search products..." />
-      </div>
+     <!-- In the header section -->
+<h1>
+  <i class="fas fa-store" style="margin-right: 10px;"></i>
+  MarketMingle
+</h1><br>
+     
       <nav>
         <ul>
           <li><a href="index.html"><i class="fas fa-home"></i><span>Home</span></a></li>
@@ -540,20 +531,20 @@
     const products = [
       {
         id: 1,
-        name: "Microphone Headset",
-        vendor: "Office Tech",
+        name: "Acoustic Energy 300",
+        vendor: "Audiomax",
         price: 740.89,
         rating: 4,
-        image: "https://via.placeholder.com/250x200?text=Product+1",
-        description: "Premium headset with crystal clear sound and ergonomic design."
+        image: "https://i.ibb.co/Q77Sdskh/d5701f4ef61b5624ed96c90d158eb038.jpg",
+        description: "Bespoke new Acoustic Energy drive units have been designed in tandem. The 28mm aluminium dome tweeter features WDT (Wide Dispersion Technology) ."
       },
       {
         id: 2,
         name: "Wireless Earbuds",
         vendor: "SoundWave",
-        price: 59.99,
+        price: 79.99,
         rating: 5,
-        image: "https://via.placeholder.com/250x200?text=Product+2",
+        image: "https://i.ibb.co/s9fQ8hSB/76239dc47dd8a7ead7bfe958c9b0a3ca.jpg",
         description: "Compact, true wireless earbuds with long battery life."
       },
       {
@@ -562,7 +553,7 @@
         vendor: "GadgetPro",
         price: 15.50,
         rating: 3,
-        image: "https://via.placeholder.com/250x200?text=Product+3",
+        image: "https://i.ibb.co/6R88Mm7Q/41accb058db0254d8560478ee5343bb3.jpg",
         description: "Adjustable smartphone stand ideal for video calls and streaming."
       },
       {
@@ -571,7 +562,7 @@
         vendor: "AudioMax",
         price: 45.00,
         rating: 4,
-        image: "https://via.placeholder.com/250x200?text=Product+4",
+        image: "https://i.ibb.co/ym5tRK0P/cfd95e7963ebaf57698664e0a499cefe.jpg",
         description: "Portable Bluetooth speaker with powerful bass and clear sound."
       },
       {
@@ -580,80 +571,80 @@
         vendor: "FitLife",
         price: 12.75,
         rating: 2,
-        image: "https://via.placeholder.com/250x200?text=Product+5",
+        image: "https://i.ibb.co/chDp66PW/ffd3589d7df36d22c48a7ee9ff7d7f68.jpg",
         description: "Lightweight fitness tracker to monitor your daily activities."
       },
       {
         id: 6,
-        name: "LED Desk Lamp",
+        name: "USB Microphone",
         vendor: "BrightTech",
         price: 55.99,
         rating: 5,
-        image: "https://via.placeholder.com/250x200?text=Product+6",
-        description: "Energy-efficient LED desk lamp with adjustable brightness."
+        image: "https://i.ibb.co/tPQRZXLV/b9af81e648102b30db3371ba30faf30f.jpg",
+        description: "Computer desktop kic witg LED indicator, omnidirectional PC mic for online meetings"
       },
       {
         id: 7,
-        name: "Portable Charger",
+        name: "GeekAire Portable Fan",
         vendor: "PowerUp",
         price: 35.00,
         rating: 3,
-        image: "https://via.placeholder.com/250x200?text=Product+7",
-        description: "Compact portable charger to keep your devices powered on the go."
+        image: "https://i.ibb.co/fds5033s/b274ee3a0c78960da17652ee40632d90.jpg",
+        description: "The GeekAire Portable Fan will keep you and recharge your phone"
       },
       {
         id: 8,
-        name: "Wireless Mouse",
+        name: "VonShef Electric Whisk",
         vendor: "ClickPro",
         price: 22.50,
-        rating: 4,
-        image: "https://via.placeholder.com/250x200?text=Product+8",
-        description: "Ergonomic wireless mouse with precision tracking."
+        rating: 3,
+        image: "https://i.ibb.co/VpTWr7B5/7c3e56b5e1734811e6436e087602cc4d.jpg",
+        description: "Food mixer with 5 speeds, 300W, 2 stainless steel beaters, 2 dough hooks & baloon whisk."
       },
       {
         id: 9,
-        name: "Gaming Keyboard",
-        vendor: "KeyMaster",
-        price: 39.99,
+        name: "Microsoft Xbox 360 console",
+        vendor: "GameMaster",
+        price: 900.99,
         rating: 5,
-        image: "https://via.placeholder.com/250x200?text=Product+9",
-        description: "Mechanical gaming keyboard with customizable RGB lighting."
+        image: "https://i.ibb.co/Y4n63pMg/c73cb2726b63b9ff46471c3d4bffae6b.jpg",
+        description: "Microsoft Xbox 360 E 250GB hard drive,  1 black wireless controller,Built-in WI-FI."
       },
       {
         id: 10,
-        name: "USB-C Hub",
-        vendor: "TechGear",
+        name: "Nike Airforce 1",
+        vendor: "Jordynn Fashion",
         price: 17.00,
         rating: 3,
-        image: "https://via.placeholder.com/250x200?text=Product+10",
-        description: "Multiport USB-C hub to expand connectivity options."
+        image: "https://i.ibb.co/7JKgtnvd/647cad16ede10f3ac32e84c8f14831e9.jpg",
+        description: "Nike Men Airforce 1 '07 Basketball shoe.white G."
       },
       {
         id: 11,
-        name: "Wireless Charger",
-        vendor: "ChargeIt",
-        price: 29.99,
+        name: "Polo Blue",
+        vendor: "Romans",
+        price: 63.99,
         rating: 4,
-        image: "https://via.placeholder.com/250x200?text=Product+11",
-        description: "Fast wireless charger compatible with all Qi-enabled devices."
+        image: "https://i.ibb.co/Kx6ng5Nw/c62ff4f4bb971d6e0d5bbde1a3ae8468.jpg" ,
+        description: "Polo Blue by Ralph Lauren for Men -6.7 oz EDT Spray"
       },
       {
         id: 12,
-        name: "Smartwatch",
-        vendor: "TimeTech",
-        price: 48.50,
+        name: "Women's Jackets",
+        vendor: "Cyflymder",
+        price: 238.50,
         rating: 5,
-        image: "https://via.placeholder.com/250x200?text=Product+12",
-        description: "Feature-packed smartwatch with health monitoring and notifications."
+        image: "https://i.ibb.co/G3fDbPsr/c291789455a8718c724815a99efdaf87.jpg",
+        description: "Cyflymder women's  jacket chic, elegant, casual women's suit."
       },
       {
         id: 13,
-        name: "Laptop Sleeve",
+        name: "Apple IPad Mini 8,3",
         vendor: "CarryPro",
-        price: 33.25,
-        rating: 2,
-        image: "https://via.placeholder.com/250x200?text=Product+13",
-        description: "Sleek and durable laptop sleeve to protect your device on the go."
+        price: 411.25,
+        rating: 3,
+        image: "https://i.ibb.co/cXFxf5YN/db2bc2ffb8a04798e550d11767f88df3.jpg",
+        description: "Apple IPad Mini 8,3 2021 WI-FI, 64GB space, gray."
       },
       {
         id: 14,
@@ -661,63 +652,73 @@
         vendor: "SoundGuard",
         price: 27.80,
         rating: 4,
-        image: "https://via.placeholder.com/250x200?text=Product+14",
+        image: "https://i.ibb.co/PsfNsqNN/a8337f50ffaf22a9f4c350ed63362ec8.jpg",
         description: "High-quality noise cancelling headphones for immersive sound."
       },
       {
         id: 15,
-        name: "Action Camera",
-        vendor: "AdventureCam",
-        price: 19.99,
+        name: "Naviforce Casual Steel",
+        vendor: "classic New",
+        price: 119.99,
         rating: 3,
-        image: "https://via.placeholder.com/250x200?text=Product+15",
-        description: "Compact action camera ideal for capturing outdoor adventures."
+        image: "https://i.ibb.co/LDkdmFLr/b5f6364e6b7da2f1f03bd1a9674fe06c.jpg",
+        description: "Waterproof Casual Steel Band Quartz Watch - White with blue."
       },
       {
         id: 16,
-        name: "Portable Bluetooth Speaker",
+        name: "Philips GC4870/02",
         vendor: "BeatBox",
         price: 59.99,
         rating: 5,
-        image: "https://via.placeholder.com/250x200?text=Product+16",
-        description: "Rugged and portable Bluetooth speaker with deep bass."
+        image: "https://i.ibb.co/N2XmhJWr/45345971.webp",
+        description: "Philips GC4870/02 Azur stream iron 2600W brown/ gold."
       },
       {
         id: 17,
-        name: "Wireless Earphones",
-        vendor: "EarFun",
+        name: "Vizio 55' Smart LED",
+        vendor: "walmartpro",
         price: 21.99,
         rating: 4,
-        image: "https://via.placeholder.com/250x200?text=Product+17",
-        description: "Sleek wireless earphones with noise isolation for clear calls."
+        image: "https://i.ibb.co/zVYQGF01/d622daaf67d01b2ba694480933b0ed81.jpg",
+        description: "VIZIO D55X-G1 - 55 Diagonal Class (54.5&&  viewable) - D-Series LED-backlit LCD TV - Smart TV -SmartCast - 4K UHD (2160p) 3840 x 2160-HDR."
       },
       {
         id: 18,
-        name: "Portable Projector",
-        vendor: "VisionPro",
+        name: "Knit Fabric",
+        vendor: "Cider",
         price: 40.00,
         rating: 2,
-        image: "https://via.placeholder.com/250x200?text=Product+18",
-        description: "Compact projector to turn any wall into your personal screen."
+        image: "https://i.ibb.co/MxggfS0r/c27bb53ba8dd82c13b7fed9f9587ab34.jpg",
+        description: "Knit Fabric Mid Rise Solid Drawstring Pocket Wide Leg Trousers For School Daily Casual Gym/Sports Outdoor."
       },
       {
         id: 19,
-        name: "Fitness Smart Scale",
+        name: "Women's Sneakers",
         vendor: "WeighRight",
         price: 35.50,
         rating: 4,
-        image: "https://via.placeholder.com/250x200?text=Product+19",
-        description: "Smart scale that tracks weight, BMI, and body composition."
+        image: "https://i.ibb.co/LKQJxxw/f9fa9ac15f5ec7dafe6b155ae7f7f84b.jpg",
+        description: "Women's Soft Bottom Comfortable Running Lightweight Breathable Sneakers - 2806 Pink (No Box Bag) /US7/EU38/UK5."
       },
       {
         id: 20,
-        name: "USB Flash Drive",
-        vendor: "DataStore",
+        name: "Women's Ribbon Tie",
+        vendor: "Olivia",
         price: 25.00,
         rating: 5,
-        image: "https://via.placeholder.com/250x200?text=Product+20",
-        description: "High-speed USB flash drive with ample storage capacity."
-      }
+        image: "https://i.ibb.co/LdVG8Y8w/fafc184795dedbcf32f0e3c577fc444f.jpg",
+        description: "Design by Olivia Women's Ribbon Tie Chiffon Loose Pleated Wide Leg Palazzo Pants."
+      },
+      
+      {
+        id: 21,
+        name: "Silver Sweatshirt",
+        vendor: "FashionHub",
+        price: 48.00,
+        rating: 5,
+        image: "https://i.ibb.co/cSFbQzWw/71cad237005aa7df18ad885f2f1a9f67.jpg",
+        description: "Silver Basic All We Need Is Money Hoodie for Men/Women Funny All We Need Is Love Prints Sweatshirt Y2K Hoodie."
+      },
     ];
     
     // Initialize cart from localStorage
@@ -788,6 +789,7 @@
     });
     
     // Quick View Modal functionality
+    const modal = document.getElementById('quickViewModal');  // Added to ensure modal is defined
     document.getElementById('products-grid').addEventListener('click', (e) => {
       if (e.target.classList.contains('quick-view')) {
         const pid = parseInt(e.target.getAttribute('data-product-id'));

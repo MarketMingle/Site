@@ -580,10 +580,13 @@
   <!-- ---------- Updated Header ---------- -->
   <header class="header">
     <div class="header-container">
-      <h1>MarketMingle</h1>
-      <div class="search-container">
-        <input type="text" placeholder="Search products..." />
-      </div>
+     <!-- In the header section -->
+<h1>
+  <i class="fas fa-store" style="margin-right: 10px;"></i>
+  MarketMingle
+</h1><br>
+</br>
+     
       <nav>
         <ul>
           <li>
@@ -870,6 +873,51 @@
         </div>
       </div>
     </div>
+    
+      <!-- Product 111: Incerun Shirt Men -->
+  <div class="product-card" data-category="clothing" data-product-id="111">
+    <div class="product-image">
+      <img src="https://i.ibb.co/rRTwDgCT/4e42e3962525feab4869c670b3fc8288.jpg" />
+    </div>
+    <div class="product-details">
+      <h3>Incerun Men Shirt</h3>
+      <p class="product-description">
+         Brand Name: INCERUN Material: POLYESTER Material: SPANDEX Shirts Type: Casual Shirts Applicable Scene: CASUAL Style: Casual Origin: Mainland China Sleeve Length(cm): short (4-16inch)
+      </p>
+      <div class="vendor-rating">
+        <span class="vendor">Lighan</span>
+        <div class="rating">★★★★☆ <span class="reviews">(97 reviews)</span></div>
+      </div>
+      <p class="price">$178.00</p>
+      <div class="card-buttons">
+        <button class="add-to-cart">Add to Cart</button>
+        <button class="quick-view" data-product-id="111">Quick View</button>
+      </div>
+    </div>
+  </div>
+  
+    <!-- Product 112: Canon Camera -->
+    <div class="product-card" data-category="electronics" data-product-id="112">
+      <div class="product-image">
+        <img src="https://i.ibb.co/394zh8N2/ccf3f24d450b41f8ca9f65a1bfdbf88a.jpg" />
+      </div>
+      <div class="product-details">
+        <h3>Canon Dual Pixel Raw</h3>
+        <p class="product-description">
+          It's quite possibly the most anticipated camera announcement of the year, and it finally happened!
+Canon has revealed the long-awaited 5D Mark IV
+        </p>
+        <div class="vendor-rating">
+          <span class="vendor">PetaPixel</span>
+          <div class="rating">★★★★☆ <span class="reviews">(384 reviews)</span></div>
+        </div>
+        <p class="price">$820.89</p>
+        <div class="card-buttons">
+          <button class="add-to-cart">Add to Cart</button>
+          <button class="quick-view" data-product-id="112">Quick View</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ---------- "View More" Products Button ---------- -->
@@ -1079,6 +1127,36 @@
   <script>
     setTimeout(() => { document.getElementById('popup-ad').style.display = 'flex'; }, 5000);
     function closePopup() { document.getElementById('popup-ad').style.display = 'none'; }
+    
+    // ---------- Search Functionality ----------
+const searchInput = document.querySelector('.search-container input');
+searchInput.addEventListener('input', filterProducts);
+
+function filterProducts() {
+  const searchTerm = searchInput.value.toLowerCase();
+  document.querySelectorAll('.product-card').forEach(product => {
+    const productName = product.querySelector('h3').textContent.toLowerCase();
+    if (productName.includes(searchTerm)) {
+      product.style.display = 'flex';
+    } else {
+      product.style.display = 'none';
+    }
+  });
+}
+// ---------- View More Loading Screen ---------- 
+document.querySelector('.view-more a').addEventListener('click', function(e) {
+  e.preventDefault();
+  const targetURL = this.href;
+  
+  document.getElementById('loading-screen').style.display = 'flex';
+  document.getElementById('loading-screen').style.opacity = '1';
+  
+  setTimeout(() => {
+    window.location.href = targetURL;
+  }, 500);
+});
+
+
   </script>
 
   <!-- ---------- Pop-up Ad Styles ---------- -->
@@ -1119,6 +1197,14 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
+    .header-container h1 i {
+  font-size: 1.3em;
+  vertical-align: middle;
+}
+.header-container h1 i {
+  font-size: 1.3em;
+  vertical-align: middle;
+}
   </style>
 </body>
 </html>
