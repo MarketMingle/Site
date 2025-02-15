@@ -210,6 +210,7 @@
             <div>
               <label class="label">Status:</label>
               <select class="status-select" data-id="${order.id}">
+                <option ${order.status === 'pending' ? 'selected' : ''}>pending</option>
                 <option ${order.status === 'ordered' ? 'selected' : ''}>ordered</option>
                 <option ${order.status === 'processed' ? 'selected' : ''}>processed</option>
                 <option ${order.status === 'shipped' ? 'selected' : ''}>shipped</option>
@@ -223,6 +224,11 @@
             <div>
               <label class="label">Tracking Location:</label>
               <input type="text" class="delivery-location" data-id="${order.id}" value="${order.location || ''}">
+            </div>
+            <!-- New input added for updating the current location displayed on the tracking page -->
+            <div>
+              <label class="label">Current Location:</label>
+              <input type="text" class="current-location" data-id="${order.id}" value="${order.currentLocation || ''}">
             </div>
           </div>
           <button class="update-order" data-id="${order.id}">Update Order Info</button>
@@ -244,12 +250,14 @@
         const newStatus = document.querySelector(`.status-select[data-id="${orderId}"]`).value;
         const newDeliveryDate = document.querySelector(`.delivery-date[data-id="${orderId}"]`).value;
         const newLocation = document.querySelector(`.delivery-location[data-id="${orderId}"]`).value;
+        const newCurrentLocation = document.querySelector(`.current-location[data-id="${orderId}"]`).value;
         // For customer name and home address, we assume these were entered at checkout.
         // They might be updated here if necessary.
         const newHomeAddress = document.querySelector(`.home-address[data-id="${orderId}"]`)?.value || order.homeAddress;
         order.status = newStatus;
         order.deliveryDate = newDeliveryDate;
         order.location = newLocation;
+        order.currentLocation = newCurrentLocation;
         order.homeAddress = newHomeAddress;
         order.updated = new Date().toISOString();
         localStorage.setItem('orders', JSON.stringify(orders));
