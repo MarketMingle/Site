@@ -162,7 +162,7 @@
     }
     .product-image {
       width: 100%;
-      height: 200px; /* Changed from 200px to 250px */
+      height: 200px;
       overflow: hidden;
     }
     .product-image img {
@@ -318,7 +318,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #f4f4f4;
+      background: linear-gradient(135deg, #11CBAD, #0E8281);
       z-index: 9999;
       display: flex;
       flex-direction: column;
@@ -326,22 +326,22 @@
       align-items: center;
       transition: opacity 0.8s ease-out;
     }
+    #loading-screen p {
+      color: #fff;
+      font-size: 1.2rem;
+      margin-top: 20px;
+    }
     .loader {
-      border: 12px solid #f3f3f3;
-      border-top: 12px solid #2575fc;
+      border: 12px solid rgba(255, 255, 255, 0.3);
+      border-top: 12px solid #fff;
       border-radius: 50%;
       width: 80px;
       height: 80px;
-      animation: spin 4.5s linear infinite;
+      animation: spin 1s linear infinite;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
-    }
-    #loading-screen p {
-      margin-top: 20px;
-      font-size: 1.2rem;
-      color: #333;
     }
     
     /* ---------- Modal Quick View ---------- */
@@ -375,9 +375,9 @@
       cursor: pointer;
       color: #333;
     }
-      .claim {
-    color: rgba(238, 34, 34, 1);
-  }
+    .claim {
+      color: rgba(238, 34, 34, 1);
+    }
     
     /* ---------- Back to Top Button ---------- */
     #back-to-top {
@@ -407,7 +407,6 @@
       .header-container h1 {
         font-size: 1.5rem;
       }
-     
       nav ul {
         justify-content: center;
         width: 100%;
@@ -425,15 +424,15 @@
     <p>Loading...</p>
   </div>
   
-   <!-- ---------- Updated Header ---------- -->
+  <!-- ---------- Updated Header ---------- -->
   <header class="header">
     <div class="header-container">
-     <!-- In the header section -->
-<h1>
-  <i class="fas fa-store" style="margin-right: 10px;"></i>
-  MarketMingle
-</h1><br>
-     
+      <!-- In the header section -->
+      <h1>
+        <i class="fas fa-store" style="margin-right: 10px;"></i>
+        MarketMingle
+      </h1>
+      <br>
       <nav>
         <ul>
           <li><a href="index.html"><i class="fas fa-home"></i><span>Home</span></a></li>
@@ -527,7 +526,7 @@
       updateCartCount();
     });
     
-    // Sample product data (20 products) with descriptions
+    // Sample product data (20+ products) with descriptions
     const products = [
       {
         id: 1,
@@ -536,7 +535,7 @@
         price: 740.89,
         rating: 4,
         image: "https://i.ibb.co/Q77Sdskh/d5701f4ef61b5624ed96c90d158eb038.jpg",
-        description: "Bespoke new Acoustic Energy drive units have been designed in tandem. The 28mm aluminium dome tweeter features WDT (Wide Dispersion Technology) ."
+        description: "Bespoke new Acoustic Energy drive units have been designed in tandem. The 28mm aluminium dome tweeter features WDT (Wide Dispersion Technology)."
       },
       {
         id: 2,
@@ -581,7 +580,7 @@
         price: 55.99,
         rating: 5,
         image: "https://i.ibb.co/tPQRZXLV/b9af81e648102b30db3371ba30faf30f.jpg",
-        description: "Computer desktop kic witg LED indicator, omnidirectional PC mic for online meetings"
+        description: "Computer desktop mic with LED indicator, omnidirectional for online meetings."
       },
       {
         id: 7,
@@ -590,7 +589,7 @@
         price: 35.00,
         rating: 3,
         image: "https://i.ibb.co/fds5033s/b274ee3a0c78960da17652ee40632d90.jpg",
-        description: "The GeekAire Portable Fan will keep you and recharge your phone"
+        description: "The GeekAire Portable Fan keeps you cool and charges your phone on the go."
       },
       {
         id: 8,
@@ -599,7 +598,7 @@
         price: 22.50,
         rating: 3,
         image: "https://i.ibb.co/VpTWr7B5/7c3e56b5e1734811e6436e087602cc4d.jpg",
-        description: "Food mixer with 5 speeds, 300W, 2 stainless steel beaters, 2 dough hooks & baloon whisk."
+        description: "Food mixer with 5 speeds, 300W, 2 stainless steel beaters, 2 dough hooks & balloon whisk."
       },
       {
         id: 9,
@@ -608,7 +607,7 @@
         price: 900.99,
         rating: 5,
         image: "https://i.ibb.co/Y4n63pMg/c73cb2726b63b9ff46471c3d4bffae6b.jpg",
-        description: "Microsoft Xbox 360 E 250GB hard drive,  1 black wireless controller,Built-in WI-FI."
+        description: "Microsoft Xbox 360 E 250GB hard drive, 1 black wireless controller, Built-in WI-FI."
       },
       {
         id: 10,
@@ -617,7 +616,7 @@
         price: 17.00,
         rating: 3,
         image: "https://i.ibb.co/7JKgtnvd/647cad16ede10f3ac32e84c8f14831e9.jpg",
-        description: "Nike Men Airforce 1 '07 Basketball shoe.white G."
+        description: "Nike Men Airforce 1 '07 Basketball shoe in white."
       },
       {
         id: 11,
@@ -625,8 +624,8 @@
         vendor: "Romans",
         price: 63.99,
         rating: 4,
-        image: "https://i.ibb.co/Kx6ng5Nw/c62ff4f4bb971d6e0d5bbde1a3ae8468.jpg" ,
-        description: "Polo Blue by Ralph Lauren for Men -6.7 oz EDT Spray"
+        image: "https://i.ibb.co/Kx6ng5Nw/c62ff4f4bb971d6e0d5bbde1a3ae8468.jpg",
+        description: "Polo Blue by Ralph Lauren for Men - 6.7 oz EDT Spray."
       },
       {
         id: 12,
@@ -635,7 +634,7 @@
         price: 238.50,
         rating: 5,
         image: "https://i.ibb.co/G3fDbPsr/c291789455a8718c724815a99efdaf87.jpg",
-        description: "Cyflymder women's  jacket chic, elegant, casual women's suit."
+        description: "Chic and elegant casual women's suit jacket."
       },
       {
         id: 13,
@@ -644,7 +643,7 @@
         price: 411.25,
         rating: 3,
         image: "https://i.ibb.co/cXFxf5YN/db2bc2ffb8a04798e550d11767f88df3.jpg",
-        description: "Apple IPad Mini 8,3 2021 WI-FI, 64GB space, gray."
+        description: "Apple IPad Mini 8,3 2021 WI-FI, 64GB in gray."
       },
       {
         id: 14,
@@ -662,7 +661,7 @@
         price: 119.99,
         rating: 3,
         image: "https://i.ibb.co/LDkdmFLr/b5f6364e6b7da2f1f03bd1a9674fe06c.jpg",
-        description: "Waterproof Casual Steel Band Quartz Watch - White with blue."
+        description: "Waterproof Casual Steel Band Quartz Watch in white with blue accents."
       },
       {
         id: 16,
@@ -671,7 +670,7 @@
         price: 59.99,
         rating: 5,
         image: "https://i.ibb.co/N2XmhJWr/45345971.webp",
-        description: "Philips GC4870/02 Azur stream iron 2600W brown/ gold."
+        description: "Philips GC4870/02 Azur stream iron 2600W in brown/gold."
       },
       {
         id: 17,
@@ -680,7 +679,7 @@
         price: 21.99,
         rating: 4,
         image: "https://i.ibb.co/zVYQGF01/d622daaf67d01b2ba694480933b0ed81.jpg",
-        description: "VIZIO D55X-G1 - 55 Diagonal Class (54.5&&  viewable) - D-Series LED-backlit LCD TV - Smart TV -SmartCast - 4K UHD (2160p) 3840 x 2160-HDR."
+        description: "VIZIO D55X-G1 - 55 Diagonal Class LED-backlit LCD TV, SmartCast, 4K UHD."
       },
       {
         id: 18,
@@ -689,7 +688,7 @@
         price: 40.00,
         rating: 2,
         image: "https://i.ibb.co/MxggfS0r/c27bb53ba8dd82c13b7fed9f9587ab34.jpg",
-        description: "Knit Fabric Mid Rise Solid Drawstring Pocket Wide Leg Trousers For School Daily Casual Gym/Sports Outdoor."
+        description: "Knit Fabric Mid Rise Solid Drawstring Pocket Wide Leg Trousers for daily casual wear."
       },
       {
         id: 19,
@@ -698,7 +697,7 @@
         price: 35.50,
         rating: 4,
         image: "https://i.ibb.co/LKQJxxw/f9fa9ac15f5ec7dafe6b155ae7f7f84b.jpg",
-        description: "Women's Soft Bottom Comfortable Running Lightweight Breathable Sneakers - 2806 Pink (No Box Bag) /US7/EU38/UK5."
+        description: "Comfortable and breathable women's running sneakers."
       },
       {
         id: 20,
@@ -707,9 +706,8 @@
         price: 25.00,
         rating: 5,
         image: "https://i.ibb.co/LdVG8Y8w/fafc184795dedbcf32f0e3c577fc444f.jpg",
-        description: "Design by Olivia Women's Ribbon Tie Chiffon Loose Pleated Wide Leg Palazzo Pants."
+        description: "Design by Olivia – Women's Ribbon Tie Chiffon Loose Pleated Wide Leg Palazzo Pants."
       },
-      
       {
         id: 21,
         name: "Silver Sweatshirt",
@@ -717,8 +715,8 @@
         price: 48.00,
         rating: 5,
         image: "https://i.ibb.co/cSFbQzWw/71cad237005aa7df18ad885f2f1a9f67.jpg",
-        description: "Silver Basic All We Need Is Money Hoodie for Men/Women Funny All We Need Is Love Prints Sweatshirt Y2K Hoodie."
-      },
+        description: "Silver Basic hoodie for Men/Women with Y2K-inspired prints."
+      }
     ];
     
     // Initialize cart from localStorage
@@ -789,7 +787,7 @@
     });
     
     // Quick View Modal functionality
-    const modal = document.getElementById('quickViewModal');  // Added to ensure modal is defined
+    const modal = document.getElementById('quickViewModal');
     document.getElementById('products-grid').addEventListener('click', (e) => {
       if (e.target.classList.contains('quick-view')) {
         const pid = parseInt(e.target.getAttribute('data-product-id'));

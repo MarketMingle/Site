@@ -175,9 +175,47 @@
         font-size: 0.85rem;
       }
     }
+    /* ---------- Loading Screen ---------- */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #f4f4f4;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.8s ease-out;
+    }
+    #loading-screen p {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    #loading-screen .loader {
+      border: 12px solid #f3f3f3;
+      border-top: 12px solid #1B8A54;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
+  <!-- ---------- Loading Screen ---------- -->
+  <div id="loading-screen">
+    <div class="loader"></div>
+    <p>Loading...</p>
+  </div>
+  
   <header class="fancy-header">
     <h1>MarketMingle</h1>
   </header>
@@ -192,10 +230,10 @@
       
       <div class="tracking-progress" id="tracking-status">
         <div class="progress-bar">
-          <div class="progress-step" data-status="ordered"></div>
-          <div class="progress-step" data-status="processed"></div>
-          <div class="progress-step" data-status="shipped"></div>
-          <div class="progress-step" data-status="delivered"></div>
+          <div class="progress-step" data-status="Ordered"></div>
+          <div class="progress-step" data-status="Processed"></div>
+          <div class="progress-step" data-status="Shipped"></div>
+          <div class="progress-step" data-status="Delivered"></div>
         </div>
         <div class="status-text" id="status-text"></div>
       </div>
@@ -223,6 +261,13 @@
           integrity="sha512-1w96rRH+AA/mCJIF3cZoM9H1Wq4fTA7OWX4T7ZhTnZFLWf+9TQx9qG/yQdh2smtos/gJ3m4Z5DrQW00a4vJ7Ug==" 
           crossorigin=""></script>
   <script>
+    // Hide the loading screen once the DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      const loadingScreen = document.getElementById('loading-screen');
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+    });
+
     // Global map variables
     let map, marker;
     

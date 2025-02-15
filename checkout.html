@@ -177,8 +177,8 @@
 
       <label for="payment">Payment Method:</label>
       <select id="payment" name="payment" required>
-        <option value="credit_card">Crypto Payment</option>
-        <option value="bank_transfer">Bank Transfer</option>
+        <option value="credit_card">Bank Transfer</option>
+        <option value="bank_transfer">Crypto Payment</option>
       </select>
 
       <button type="submit">Place Order</button>
@@ -200,7 +200,7 @@
       // Build an order object with the required properties:
       const order = {
         id: 'ORD' + now.getTime(),                              // Unique order ID
-        status: 'ordered',                                      // Initial order status
+        status: 'Pending',                                      // Initial order status
         updated: now.toISOString(),                             // Last updated timestamp
         deliveryDate: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString(), // Estimated delivery (7 days later)
         date: now.toISOString(),                                // Order placed timestamp

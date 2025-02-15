@@ -45,7 +45,7 @@
   <!-- ---------- Loading Screen Markup ---------- -->
   <div id="loading-screen">
     <div class="loader"></div>
-    <p>Loading Cart...</p>
+    <p>Loading...</p>
   </div>
 
   <!-- Header -->
@@ -55,7 +55,6 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="cart.html">Cart <span class="cart-count">0</span></a></li>
-          
         </ul>
       </nav>
     </div>
@@ -92,7 +91,7 @@
         <button class="empty-cart" onclick="emptyCart()">Empty Cart</button>
         <div class="action-group">
           <button class="continue-shopping" onclick="window.location.href='index.html'">Continue Shopping</button>
-          <button class="proceed-checkout" onclick="proceedToCheckout()">Proceed to Payment</button>
+          <button class="proceed-checkout" onclick="proceedToCheckout()">Checkout</button>
         </div>
       </div>
     </section>
@@ -100,14 +99,11 @@
   
   <!-- Footer -->
   <footer>
-   
-    
     <div class="footer-bottom">
       <p>&copy; 2025 MarketMingle. All rights reserved.</p>
     </div>
   </footer>
   
-
   <script src="script.js"></script>
   <!-- JavaScript to remove the loading screen when the page is fully loaded -->
   <script>
@@ -120,6 +116,19 @@
         loadingScreen.style.display = 'none';
       }, 500);
     });
+  </script>
+  <!-- New script: Show loading screen on "Proceed to Payment" button click -->
+  <script>
+    function proceedToCheckout() {
+      const loadingScreen = document.getElementById('loading-screen');
+      // Display the loading screen again
+      loadingScreen.style.display = 'flex';
+      loadingScreen.style.opacity = '1';
+      // Delay to allow the loading screen to be seen before redirecting
+      setTimeout(() => {
+        window.location.href = 'checkout.html';
+      }, 500);
+    }
   </script>
 </body>
 </html>
